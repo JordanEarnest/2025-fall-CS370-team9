@@ -1,8 +1,10 @@
+package com.recipez.core;
+
 import javax.swing.*;
 
 public class Application {
 
-    JFrame window;
+    private JFrame window;
 
     public Application() {
         initWindow();
