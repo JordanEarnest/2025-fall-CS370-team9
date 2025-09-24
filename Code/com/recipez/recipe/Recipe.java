@@ -1,5 +1,7 @@
 package com.recipez.recipe;
 
+import com.recipez.user.User;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,6 +87,12 @@ public class Recipe {
             System.out.println(ingredient);
         }
     }
+
+    // Store recipe into recipes.json file according to which user is logged in
+    public void store(User user) {
+
+    }
+
 
     // Setters and getters.
     public void setName(String name) {
