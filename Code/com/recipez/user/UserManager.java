@@ -3,6 +3,7 @@ package com.recipez.user;
 import com.recipez.recipe.Recipe;
 import com.recipez.util.Log;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -25,6 +26,8 @@ public class UserManager {
         // Set the currently logged-in user
         this.currentUser = currentUser;
 
+        usersJson = new JSONArray();
+
         // Defines where recipe data is stored
         this.pathToJsonFile = DEFAULT_PATH;
         // Creates Data folder to store json in either project directory or working directory of a built jar file.
@@ -34,30 +37,98 @@ public class UserManager {
         if (!Files.exists(this.pathToJsonFile)) {
             Files.createFile(pathToJsonFile);
         } else {
-            Log.info("File at " + pathToJsonFile.toString() + " already exists!");
-            updateJSON();
+            Log.info(FILE_NAME + " in " + DATA_DIR + " already exists");
+            pullJson(); // Updates our usersJson if Users.json already exists.
+        }
+
+        // If user doesn't exist in the usersJson then create a new user JSON object
+        if (!userExistsInUsersJson(currentUser)) {
+            // Create a user into the users json array if they previously didn't exist
+            // These are all the attributes of the user we want to save into the main users.json
+            // --------------
+            JSONObject userJson = new JSONObject();
+            userJson.put("name", currentUser.getName());
+            userJson.put("password", currentUser.getPassword());
+            userJson.put("recipes", new JSONArray());
+            // --------------
+            usersJson.put(userJson);
+            pushJson(); // Push the new userJson to the Users.json
+        } else {
+            Log.info("User " + currentUser.getName() + " already exists in " + this.pathToJsonFile.toString() + " so ignored");
         }
     }
 
     public void storeRecipe(Recipe recipe){
-        updateJSON();
-        // Check to see if user already is in Recipes.json, otherwise create a new key
+        pullJson();
+        // Find currentUser in Users.json and if they exist, put the recipe in (if there are no duplicate recipes)
+        for (int i = 0; i < usersJson.length(); i++) {
+            JSONObject selectedUser = usersJson.getJSONObject(i);
+            if (selectedUser.get("name").equals(currentUser.getName())) {
+                // At this point, we have found the currentUser
+                // But is the recipe a duplicate? Let's check.
+                for (int j = 0; j < selectedUser.getJSONArray("recipes").length(); j++) {
+                    // Holds the current recipe being looked at for currentUser
+                    JSONObject selectedRecipe = selectedUser.getJSONArray("recipes").getJSONObject(j);
 
+                    // Compare the current recipe with the recipe attempting to being stored.
+                    // If they are the same, then break out of the method.
+                    if (selectedRecipe.get("name").equals(recipe.getName())) {
+                        Log.warning("Attempted to store recipe " + recipe.getName() + " with user " + currentUser.getName() + " but failed since " + recipe.getName() + " already exists.");
+                        return;
+                    }
+                }
+                // At this point, there are no duplicate recipes. Safe to store.
+                Log.info("Storing recipe called " + recipe.getName() + " for " + currentUser.getName());
+                selectedUser.getJSONArray("recipes").put(recipe.getRecipeJson());
+                Log.info("Successfully stored recipe called " + recipe.getName() + " for " + currentUser.getName());
 
+                pushJson(); // Update Users.json
+                return;
+            }
+        }
+        Log.warning("Failed storing recipe " + recipe.getName() + " into " + currentUser.getName());
     }
 
     public Recipe loadRecipe(Recipe recipe) {
-        updateJSON();
+        pullJson();
         // Check to see if recipe doesn't exist
         return  null;
     }
 
-    // Ensures that we have the latest JSON data and store it into our JSON Array Object.
-    private void updateJSON() {
+    public void removeRecipe(Recipe recipe) {
+
+    }
+
+    private boolean userExistsInUsersJson(User user) {
+        for (int i = 0; i < usersJson.length(); i++) {
+            JSONObject selectedUser = usersJson.getJSONObject(i);
+            if (selectedUser.get("name").equals(user.getName()))
+                return true;
+        }
+        return false;
+    }
+
+    // Ensures that we have the latest JSON data to store it into our JSON Array Object in this class.
+    private void pullJson() {
         try {
-            usersJson = new JSONArray(Files.readString(pathToJsonFile, StandardCharsets.UTF_8));
+            String content = Files.readString(pathToJsonFile, StandardCharsets.UTF_8);
+            // CHECK: Don't pull from json file if it is empty.
+            // This prevents an error for below init.
+            if (content.isEmpty())
+                return;
+
+            usersJson = new JSONArray(content);
         } catch (IOException e) {
-            Log.error("Failed to update JSON file at " +  pathToJsonFile.toString() + "!");
+            Log.error("Failed to pull from " + FILE_NAME + " at " + pathToJsonFile.toString() + "!");
+        }
+    }
+
+    // Push our users json array object into the actual .json file in DATA_DIR
+    private void pushJson() {
+        try {
+            Files.writeString(DEFAULT_PATH, usersJson.toString(4), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            Log.error("Failed to push to " + FILE_NAME + " at " + pathToJsonFile.toString() + "!");
         }
     }
 

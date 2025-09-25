@@ -71,7 +71,7 @@ public class Recipe {
         ingredientsJson = new JSONArray();
 
         for (Ingredient ingredient : ingredients)
-            ingredientsJson.put(ingredient.getName());
+            ingredientsJson.put(ingredient.getIngredientJson());
         recipeJson.put("ingredients", ingredientsJson);
     }
     // Print out the ingredients of a recipe. For debugging purposes.

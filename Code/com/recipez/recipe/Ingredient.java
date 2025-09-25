@@ -9,15 +9,23 @@ public class Ingredient {
 
     private float quantifier;
 
+    JSONObject ingredientJson;
 
     public Ingredient(String name, float quantifier, MeasurementType measurementType) {
         this.name = name;
         this.quantifier = quantifier;
         this.measurementType = measurementType;
 
+        ingredientJson = new JSONObject();
+        ingredientJson.put("name", name);
+        ingredientJson.put("quantifier", quantifier);
+        ingredientJson.put("measurementType", measurementType.toString());
     }
 
-    // Setters and getters.
+    // Getters.
+    public JSONObject getIngredientJson() {
+        return ingredientJson;
+    }
     public MeasurementType getMeasurementType() {
         return measurementType;
     }
