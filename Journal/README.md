@@ -1,7 +1,19 @@
-This folder is for your meeting notes.
-
-A template for your meeting notes:
-- When: date & time
-- Who: meeting attendees
-- Where: in-person or online
-- What: items discussed during the meeting
+# Meeting Journal 
+___
+## Meeting #1
+### Time
+7/25/2025 at 8:00 PM
+### Attendance
+To be determined
+### Method
+Online via discord call
+### Talking Points
+* Discuss branch naming conventions
+* Touch base on working git (anyone having problems?)
+* Discuss status on our features 
+  * Jordan => inputting-recipes-json
+* Determine all necessary main features for app
+  * Determine sub-features for main features
+* Assign features to individuals for this week
+* Time for questions, concerns, or ideas
+### Notes
