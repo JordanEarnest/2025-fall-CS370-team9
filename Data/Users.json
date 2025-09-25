@@ -1,0 +1,65 @@
+[
+    {
+        "recipes": [{
+            "directions": "Toss ingredients in a bowl",
+            "name": "Salad",
+            "description": "A healthy snack",
+            "ingredients": [
+                {
+                    "name": "Tomato",
+                    "measurementType": "NUMBER",
+                    "quantifier": 1
+                },
+                {
+                    "name": "Lettuce",
+                    "measurementType": "CUP",
+                    "quantifier": 2
+                }
+            ]
+        }],
+        "password": "123",
+        "name": "Jordan"
+    },
+    {
+        "recipes": [{
+            "directions": "Toss ingredients in a bowl",
+            "name": "Salad",
+            "description": "A healthy snack",
+            "ingredients": [
+                {
+                    "name": "Tomato",
+                    "measurementType": "NUMBER",
+                    "quantifier": 1
+                },
+                {
+                    "name": "Lettuce",
+                    "measurementType": "CUP",
+                    "quantifier": 2
+                }
+            ]
+        }],
+        "password": "123",
+        "name": "Josh"
+    },
+    {
+        "recipes": [{
+            "directions": "Toss ingredients in a bowl",
+            "name": "Salad",
+            "description": "A healthy snack",
+            "ingredients": [
+                {
+                    "name": "Tomato",
+                    "measurementType": "NUMBER",
+                    "quantifier": 1
+                },
+                {
+                    "name": "Lettuce",
+                    "measurementType": "CUP",
+                    "quantifier": 2
+                }
+            ]
+        }],
+        "password": "123",
+        "name": "Alex"
+    }
+]
