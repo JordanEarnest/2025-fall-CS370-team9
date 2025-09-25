@@ -1,9 +1,16 @@
 package com.recipez.user;
 
+import com.recipez.recipe.Recipe;
+import com.recipez.util.Log;
+
+import java.io.IOException;
+import java.util.List;
+
 public class User {
 
     private String name;
     private String password; // ENCRYPT THIS LATER PLEASE, NOT NOW BUT IN FORESEEABLE FUTURE
+    private UserManager userManager;
     private String bodyGoal; //cut,bulk, or maintain.
     private String preference; //vegetarian, pescatarian, etc.
     private double weight; //U.S. standard Lbs format
@@ -14,26 +21,22 @@ public class User {
         this.password = password;
         this.bodyGoal = bodyGoal;
         this.preference = preference;
+
+        try {
+            userManager = new UserManager(this);
+        } catch (IOException e) {
+            Log.error("Failed to create UserManager for " + this.name);
+        }
+
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public UserManager getUserManager() {
+        return userManager;
     }
     public String getName() {
         return name;
     }
-    public void setPassword(String password) {
-        this.password = password;
-    }
     public String getPassword() {
         return password;
     }
-    public void setBodyGoal(String bodyGoal) {this.bodyGoal = bodyGoal;}
-    public String getBodyGoal() {return bodyGoal;}
-    public void setPreference(String preference) {this.preference = preference;}
-    public String getPreference() {return preference;}
-    public void setWeight(double weight) {this.weight = weight;}
-    public double getWeight() {return weight;}
-    public void setHeight(double height) {this.height = height;}
-    public double getHeight() {return height;}
 }

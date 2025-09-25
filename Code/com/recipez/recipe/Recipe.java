@@ -1,7 +1,7 @@
 package com.recipez.recipe;
 
 import com.recipez.user.User;
-
+import org.json.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,71 +46,53 @@ public class Recipe {
     // Short description of the recipe describing the meal.
     private String description;
 
-    private String instructions;
+    // Enumerate directions
+    private String directions;
+
+    private JSONObject recipeJson;
+    private JSONArray ingredientsJson;
 
     // Store all ingredients into an ArrayList (dynamically sizes).
     // Data is lost when application closes.
-    private final List<String> ingredients;
+    private List<Ingredient> ingredients;
 
-    public Recipe() {
-        ingredients = new ArrayList<>();
-        name = "Default";
-        description = "No description.";
-        instructions = "No instructions.";
-    }
-
-    public Recipe(String name, String description, String instructions) {
-        ingredients = new ArrayList<>();
+    public Recipe(String name, String description, String directions, List<Ingredient> ingredients) {
         this.name = name;
         this.description = description;
-        this.instructions = instructions;
+        this.directions = directions;
+        this.ingredients = ingredients;
+
+        // Setup JSONArray for recipe
+        recipeJson = new JSONObject();
+        recipeJson.put("name", name);
+        recipeJson.put("description", description);
+        recipeJson.put("directions", directions);
+
+        ingredientsJson = new JSONArray();
+
+        for (Ingredient ingredient : ingredients)
+            ingredientsJson.put(ingredient.getIngredientJson());
+        recipeJson.put("ingredients", ingredientsJson);
     }
-
-    // Adding ingredients to the ArrayList.
-    public void addIngredient(String ingredient) {
-        /*
-            Establish a consistent ingredient format for the user.
-            First set the string to all lower case.
-            Then capitalize the first letter.
-            e.g. egGs --> eggs --> Eggs
-         */
-        String formattedIngredient = ingredient.substring(0, 1).toUpperCase() + ingredient.substring(1).toLowerCase();
-
-        // Add the correctly formatted ingredient to the ArrayList.
-        ingredients.add(formattedIngredient);
-    }
-
     // Print out the ingredients of a recipe. For debugging purposes.
     public void printIngredients() {
         System.out.println("Ingredients for " + name + ":");
-        for (String ingredient : ingredients) {
-            System.out.println(ingredient);
+        for (Ingredient ingredient : ingredients) {
+            System.out.println(ingredient.getName());
         }
     }
 
-    // Store recipe into recipes.json file according to which user is logged in
-    public void store(User user) {
-
-    }
-
-
-    // Setters and getters.
-    public void setName(String name) {
-        this.name = name;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
-    }
+    // Getters.
     public String getName() {
         return name;
     }
     public String getDescription() {
         return description;
     }
-    public String getInstructions() {
-        return instructions;
+    public String getDirections() {
+        return directions;
+    }
+    public JSONObject getRecipeJson() {
+        return recipeJson;
     }
 }
