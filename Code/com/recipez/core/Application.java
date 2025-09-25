@@ -21,14 +21,6 @@ public class Application {
     public Application() {
         initWindow();
 
-        user = new User("Alex", "123");
-
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(new Ingredient("Tomato", 1, MeasurementType.NUMBER));
-        ingredients.add(new Ingredient("Lettuce", 2, MeasurementType.CUP));
-        Recipe recipe = new Recipe("Salad", "A healthy snack", "Toss ingredients in a bowl", ingredients);
-
-        user.getUserManager().storeRecipe(recipe);
     }
 
     private void initWindow() {
