@@ -19,7 +19,7 @@ public class User {
         try {
             userManager = new UserManager(this);
         } catch (IOException e) {
-            Log.error("Failed to create UserManager for User");
+            Log.error("Failed to create UserManager for " + this.name);
         }
     }
 
