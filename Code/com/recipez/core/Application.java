@@ -3,6 +3,8 @@ package com.recipez.core;
 import com.recipez.recipe.Ingredient;
 import com.recipez.recipe.MeasurementType;
 import com.recipez.recipe.Recipe;
+import com.recipez.user.BodyGoal;
+import com.recipez.user.DietType;
 import com.recipez.user.User;
 import com.recipez.user.UserManager;
 import com.recipez.util.Log;
@@ -21,16 +23,7 @@ public class Application {
     public Application() {
         initWindow();
 
-        user = new User("Jordan", "123", "bulk", "vegeterian");
-
-        List<Ingredient> ingredients = new ArrayList<>();
-        ingredients.add(new Ingredient("Tomato", 1, MeasurementType.NUMBER));
-        ingredients.add(new Ingredient("Lettuce", 2, MeasurementType.CUP));
-
-        Recipe recipe = new Recipe("Salad", "A healthy snack.", "Toss items in a bowl", ingredients);
-
-        user.getUserManager().storeRecipe(recipe);
-
+        user = new User("Jordan", "123", BodyGoal.MAINTAIN, DietType.NONE, 125, 5.583, 19, true);
     }
 
     private void initWindow() {
