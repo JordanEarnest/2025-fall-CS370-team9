@@ -22,6 +22,8 @@ public class UserManager {
     // Holds actual JSONArray object for our FILE_NAME in DATA_DIR, we are using a library for this.
     private JSONArray usersJson;
 
+    private JSONObject userJson;
+
     public UserManager(User user) throws IOException {
         // Set the currently logged-in user
         this.user = user;
@@ -37,25 +39,39 @@ public class UserManager {
         if (!Files.exists(this.pathToJsonFile)) {
             Files.createFile(pathToJsonFile);
         } else {
+            // Instead, let's load from Users.json on startup.
             Log.info(FILE_NAME + " in " + DATA_DIR + " already exists");
             pullJson(); // Updates our usersJson if Users.json already exists.
         }
 
+        // If the user exists, let's assign it's specific JSON Object to our instance variable userJson to store it for later modifications or updates.
+        userJson = getUserJSONObject();
         // If user doesn't exist in the usersJson then create a new user JSON object
-        if (!userExistsInUsersJson(user)) {
-            // Create a user into the users json array if they previously didn't exist
-            // These are all the attributes of the user we want to save into the main users.json
-            // --------------
-            JSONObject userJson = new JSONObject();
-            userJson.put("name", user.getName());
-            userJson.put("password", user.getPassword());
-            userJson.put("recipes", new JSONArray());
-            // --------------
-            usersJson.put(userJson);
-            pushJson(); // Push the new userJson to the Users.json
+        if (userJson == null) {
+            userJson = new JSONObject();
+            addAllUserAttributesToJsonFile();
         } else {
             Log.info("User " + user.getName() + " already exists in " + this.pathToJsonFile.toString() + " so ignored");
         }
+    }
+
+    // Finds the BMR of the user and automatically sets instance variable "bmr" of user correctly when method is run.
+    public int calculateBMR() {
+        double weightToKg = user.getWeight() * 0.453592; // lbs to kg
+        double heightToCm = user.getHeight() * 30.48; // ft to cm
+        final double womenBMRConstant = -161;
+        final double menBMRConstant = 5;
+
+        int bmr = 0;
+
+        // BMR Equation for Men
+        if (user.getIsMan())
+            bmr = (int)((10 * weightToKg) + (6.25 * heightToCm) - (5 * user.getAge()) + menBMRConstant);
+        else ///  BMR Equation for Women
+            bmr = (int)((10 * weightToKg) + (6.25 * heightToCm) - (5 * user.getAge()) + womenBMRConstant);
+
+        user.setBMR(bmr);
+        return bmr;
     }
 
     public void storeRecipe(Recipe recipe){
@@ -98,14 +114,30 @@ public class UserManager {
     public void removeRecipe(Recipe recipe) {
 
     }
+    private void addAllUserAttributesToJsonFile() {
+        // These are all the attributes of the user we want to save into the main users.json
+        userJson.put("name", user.getName());
+        userJson.put("password", user.getPassword());
+        userJson.put("bodyGoal", user.getBodyGoal());
+        userJson.put("dietType", user.getDietType());
+        userJson.put("weight", user.getWeight());
+        userJson.put("height", user.getHeight());
+        userJson.put("age", user.getAge());
+        userJson.put("bmr", user.getBMR());
+        userJson.put("isMan", user.getIsMan());
+        userJson.put("recipes", new JSONArray());
+        // --------------
+        usersJson.put(userJson);
+        pushJson(); // Push the new usersJson to the Users.json
+    }
 
-    private boolean userExistsInUsersJson(User user) {
+    private JSONObject getUserJSONObject() {
         for (int i = 0; i < usersJson.length(); i++) {
             JSONObject selectedUser = usersJson.getJSONObject(i);
             if (selectedUser.get("name").equals(user.getName()))
-                return true;
+                return selectedUser;
         }
-        return false;
+        return null;
     }
 
     // Ensures that we have the latest JSON data to store it into our JSON Array Object in this class.
