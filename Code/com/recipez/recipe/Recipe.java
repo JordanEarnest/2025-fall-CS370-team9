@@ -45,8 +45,18 @@ public class Recipe {
     private String name;
     // Short description of the recipe describing the meal.
     private String description;
-
+    // Short instructions for making the meal
     private String instructions;
+
+    // total calories in the meal
+    private int calories;
+    private enum DietType {
+        VEGAN,
+        VEGETARIAN,
+        PALEO,
+        KETO
+        //more diets to come
+    }
 
     // Store all ingredients into an ArrayList (dynamically sizes).
     // Data is lost when application closes.
