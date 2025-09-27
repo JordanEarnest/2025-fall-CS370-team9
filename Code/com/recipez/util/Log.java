@@ -1,7 +1,6 @@
 package com.recipez.util;
 
 public class Log {
-
     public static void error(String message) {
         System.err.println("[ERROR] " + message);
     }

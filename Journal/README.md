@@ -2,9 +2,9 @@
 ___
 ## Meeting #1
 ### Time
-7/25/2025 at 8:00 PM
+7/26/2025 at 6:00 PM
 ### Attendance
-To be determined
+Jordan, Jaedon, Wata 
 ### Method
 Online via discord call
 ### Talking Points
