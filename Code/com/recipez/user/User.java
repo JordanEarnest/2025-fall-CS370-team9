@@ -1,6 +1,7 @@
 package com.recipez.user;
 
 import com.recipez.util.Log;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 
@@ -18,22 +19,24 @@ public class User {
     private boolean isMan;
 
     public User(String name, String password, BodyGoal bodyGoal, DietType dietType, double weight, double height, int age, boolean isMan) {
-        this.name = name;
-        this.password = password;
-        this.bodyGoal = bodyGoal;
-        this.dietType = dietType;
-        this.weight = weight;
-        this.height = height;
-        this.isMan = isMan;
-
         try {
             userManager = new UserManager(this);
         } catch (IOException e) {
             Log.error("Failed to create UserManager for " + this.name);
         }
 
+        this.name = name;
+        this.bodyGoal = bodyGoal;
+        this.dietType = dietType;
+        this.weight = weight;
+        this.height = height;
+        this.isMan = isMan;
         // Initialize user with correct BMR, rerun this method on user for additional updates to BMR if attributes such as weight/height change.
-        userManager.calculateBMR();
+        this.bmr = userManager.calculateBMR();
+        // Encrypt password into a hashed string
+        this.password = userManager.encryptPassword(password);
+
+        userManager.pushUserInformationIntoUsersJson();
     }
 
     public UserManager getUserManager() {
