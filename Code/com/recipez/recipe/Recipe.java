@@ -46,27 +46,32 @@ public class Recipe {
     // Short description of the recipe describing the meal.
     private String description;
 
-    // Enumerate directions
-    private String directions;
-
+    // Short instructions for making the meal
+    private String instructions;
+  
     private JSONObject recipeJson;
     private JSONArray ingredientsJson;
+
+    // total calories in the meal
+    private int calories;
 
     // Store all ingredients into an ArrayList (dynamically sizes).
     // Data is lost when application closes.
     private List<Ingredient> ingredients;
 
-    public Recipe(String name, String description, String directions, List<Ingredient> ingredients) {
+    public Recipe(String name, String description, String instructions, List<Ingredient> ingredients, int calories) {
         this.name = name;
         this.description = description;
-        this.directions = directions;
+        this.insstructions = instructions;
         this.ingredients = ingredients;
+        this.calories = calories;
 
         // Setup JSONArray for recipe
         recipeJson = new JSONObject();
         recipeJson.put("name", name);
         recipeJson.put("description", description);
-        recipeJson.put("directions", directions);
+        recipeJson.put("instructions", instructions);
+        recipeJson.put("calories", calories);
 
         ingredientsJson = new JSONArray();
 
