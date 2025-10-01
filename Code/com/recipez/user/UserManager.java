@@ -36,7 +36,7 @@ public class UserManager {
         // Creates Data folder to store json in either project directory or working directory of a built jar file.
         Files.createDirectories(this.pathToJsonFile.getParent());
 
-        // If the Recipes.json already exists, we don't need to create another one.
+        // If the Users.json already exists, we don't need to create another one.
         if (!Files.exists(this.pathToJsonFile)) {
             Files.createFile(pathToJsonFile);
         } else {
@@ -125,16 +125,6 @@ public class UserManager {
         Log.warning("Failed storing recipe " + recipe.getName() + " into " + user.getName());
     }
 
-    public Recipe loadRecipe(Recipe recipe) {
-        pullJson();
-        // Check to see if recipe doesn't exist
-        return  null;
-    }
-
-    public void removeRecipe(Recipe recipe) {
-
-    }
-
     private JSONObject getUserJSONObject() {
         for (int i = 0; i < usersJson.length(); i++) {
             JSONObject selectedUser = usersJson.getJSONObject(i);
@@ -166,9 +156,5 @@ public class UserManager {
         } catch (IOException e) {
             Log.error("Failed to push to " + FILE_NAME + " at " + pathToJsonFile.toString() + "!");
         }
-    }
-
-    public Path getPathToJsonFile() {
-        return pathToJsonFile;
     }
 }
