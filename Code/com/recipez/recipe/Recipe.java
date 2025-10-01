@@ -62,7 +62,7 @@ public class Recipe {
     public Recipe(String name, String description, String instructions, List<Ingredient> ingredients, int calories) {
         this.name = name;
         this.description = description;
-        this.insstructions = instructions;
+        this.instructions = instructions;
         this.ingredients = ingredients;
         this.calories = calories;
 
