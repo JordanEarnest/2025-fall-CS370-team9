@@ -94,8 +94,8 @@ public class Recipe {
     public String getDescription() {
         return description;
     }
-    public String getDirections() {
-        return directions;
+    public String getInstructions() {
+        return instructions;
     }
     public JSONObject getRecipeJson() {
         return recipeJson;
