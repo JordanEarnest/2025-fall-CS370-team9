@@ -4,6 +4,7 @@ import com.recipez.recipe.Recipe;
 import com.recipez.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -44,15 +45,35 @@ public class UserManager {
             pullJson(); // Updates our usersJson if Users.json already exists.
         }
 
+    }
+
+    public void pushUserInformationIntoUsersJson() {
         // If the user exists, let's assign it's specific JSON Object to our instance variable userJson to store it for later modifications or updates.
         userJson = getUserJSONObject();
         // If user doesn't exist in the usersJson then create a new user JSON object
         if (userJson == null) {
             userJson = new JSONObject();
-            addAllUserAttributesToJsonFile();
+            // These are all the attributes of the user we want to save into the main users.json
+            userJson.put("name", user.getName());
+            userJson.put("password", user.getPassword());
+            userJson.put("bodyGoal", user.getBodyGoal());
+            userJson.put("dietType", user.getDietType());
+            userJson.put("weight", user.getWeight());
+            userJson.put("height", user.getHeight());
+            userJson.put("age", user.getAge());
+            userJson.put("bmr", user.getBMR());
+            userJson.put("isMan", user.getIsMan());
+            userJson.put("recipes", new JSONArray());
+            // --------------
+            usersJson.put(userJson);
+            pushJson(); // Push the new usersJson to the Users.json
         } else {
             Log.info("User " + user.getName() + " already exists in " + this.pathToJsonFile.toString() + " so ignored");
         }
+    }
+
+    public String encryptPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
     // Finds the BMR of the user and automatically sets instance variable "bmr" of user correctly when method is run.
@@ -70,7 +91,6 @@ public class UserManager {
         else ///  BMR Equation for Women
             bmr = (int)((10 * weightToKg) + (6.25 * heightToCm) - (5 * user.getAge()) + womenBMRConstant);
 
-        user.setBMR(bmr);
         return bmr;
     }
 
@@ -113,22 +133,6 @@ public class UserManager {
 
     public void removeRecipe(Recipe recipe) {
 
-    }
-    private void addAllUserAttributesToJsonFile() {
-        // These are all the attributes of the user we want to save into the main users.json
-        userJson.put("name", user.getName());
-        userJson.put("password", user.getPassword());
-        userJson.put("bodyGoal", user.getBodyGoal());
-        userJson.put("dietType", user.getDietType());
-        userJson.put("weight", user.getWeight());
-        userJson.put("height", user.getHeight());
-        userJson.put("age", user.getAge());
-        userJson.put("bmr", user.getBMR());
-        userJson.put("isMan", user.getIsMan());
-        userJson.put("recipes", new JSONArray());
-        // --------------
-        usersJson.put(userJson);
-        pushJson(); // Push the new usersJson to the Users.json
     }
 
     private JSONObject getUserJSONObject() {

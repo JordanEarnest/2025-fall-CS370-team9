@@ -1,8 +1,8 @@
 [{
     "recipes": [],
-    "password": "123",
+    "password": "$2a$10$ZS35kteEWwirPMZ7B3jqaelo6TTnQYeai.7I3zvZht9X0JukKLzP.",
     "bodyGoal": "MAINTAIN",
-    "bmr": 0,
+    "bmr": 1635,
     "name": "Jordan",
     "dietType": "NONE",
     "weight": 125,
