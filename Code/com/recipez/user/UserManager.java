@@ -22,7 +22,7 @@ public class UserManager {
     private Path pathToJsonFile;
     // Holds actual JSONArray object for our FILE_NAME in DATA_DIR, we are using a library for this.
     private JSONArray usersJson;
-
+    // Holds the user specific JSONObject found within JSONArray
     private JSONObject userJson;
 
     public UserManager(User user) throws IOException {
@@ -30,6 +30,10 @@ public class UserManager {
         this.user = user;
 
         usersJson = new JSONArray();
+
+        // If the user exists, let's assign it's specific JSON Object to our instance variable userJson to store it for later modifications or updates.
+        // Might be null if new user, but pushUserInformationIntoUsersJson() will handle and create a new user JSONObject.
+        userJson = getUserJSONObject();
 
         // Defines where recipe data is stored
         this.pathToJsonFile = DEFAULT_PATH;
@@ -39,17 +43,18 @@ public class UserManager {
         // If the Users.json already exists, we don't need to create another one.
         if (!Files.exists(this.pathToJsonFile)) {
             Files.createFile(pathToJsonFile);
+            Log.info("Created file " + FILE_NAME + " in " + DATA_DIR);
+
         } else {
             // Instead, let's load from Users.json on startup.
             Log.info(FILE_NAME + " in " + DATA_DIR + " already exists");
             pullJson(); // Updates our usersJson if Users.json already exists.
+            Log.info("Pulling data from " + DATA_DIR);
         }
 
     }
 
     public void pushUserInformationIntoUsersJson() {
-        // If the user exists, let's assign it's specific JSON Object to our instance variable userJson to store it for later modifications or updates.
-        userJson = getUserJSONObject();
         // If user doesn't exist in the usersJson then create a new user JSON object
         if (userJson == null) {
             userJson = new JSONObject();
@@ -144,8 +149,10 @@ public class UserManager {
                 return;
 
             usersJson = new JSONArray(content);
+            Log.error("Pulled data from " + DATA_DIR + " for user " + user.getName());
+
         } catch (IOException e) {
-            Log.error("Failed to pull from " + FILE_NAME + " at " + pathToJsonFile.toString() + "!");
+            Log.error("Failed to pull data from " + DATA_DIR + " for user " + user.getName());
         }
     }
 
@@ -153,8 +160,9 @@ public class UserManager {
     private void pushJson() {
         try {
             Files.writeString(DEFAULT_PATH, usersJson.toString(4), StandardCharsets.UTF_8);
+            Log.info("Pushed user " + user.getName() + "data to " + DATA_DIR);
         } catch (IOException e) {
-            Log.error("Failed to push to " + FILE_NAME + " at " + pathToJsonFile.toString() + "!");
+            Log.error("Failed to push user " + user.getName() + " data to " + FILE_NAME);
         }
     }
 }

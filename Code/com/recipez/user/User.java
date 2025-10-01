@@ -36,6 +36,7 @@ public class User {
         // Encrypt password into a hashed string
         this.password = userManager.encryptPassword(password);
 
+        // This places data from user like attributes weight, gender, bodyGoal into Users.json
         userManager.pushUserInformationIntoUsersJson();
     }
 
