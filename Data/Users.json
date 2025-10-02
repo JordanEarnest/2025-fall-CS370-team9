@@ -1,26 +1,12 @@
-[
-    {
-        "recipes": [],
-        "password": "$2a$10$QlWD14t531pk0sg8jl5JRucjyI7XGYBWZJ5fQ2OaDdswk7cU47XEe",
-        "bodyGoal": "MAINTAIN",
-        "bmr": 1543,
-        "name": "Jordan",
-        "dietType": "NONE",
-        "weight": 125,
-        "isMan": true,
-        "age": 19,
-        "height": 5.6
-    },
-    {
-        "recipes": [],
-        "password": "$2a$10$bwgU1jerB/S.wdUOX3kon.Iqulnw99AnQ2Wfd3UBVje3uQX1RRGj6",
-        "bodyGoal": "MAINTAIN",
-        "bmr": 1513,
-        "name": "Dorothy",
-        "dietType": "NONE",
-        "weight": 125,
-        "isMan": true,
-        "age": 25,
-        "height": 5.599999904632568
-    }
-]
+[{
+    "recipes": [],
+    "password": "$2a$10$2OavWlChOY/B8Y/D7MTN7eZUPKAdqr5mc.MstJNhizuSczDpH5pOW",
+    "bodyGoal": "MAINTAIN",
+    "bmr": 1543,
+    "name": "Jordan",
+    "dietType": "NONE",
+    "weight": 125,
+    "isMan": true,
+    "age": 19,
+    "height": 5.6
+}]

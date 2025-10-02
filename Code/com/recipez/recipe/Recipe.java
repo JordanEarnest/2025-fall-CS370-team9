@@ -79,12 +79,9 @@ public class Recipe {
             ingredientsJson.put(ingredient.getIngredientJson());
         recipeJson.put("ingredients", ingredientsJson);
     }
-    // Print out the ingredients of a recipe. For debugging purposes.
-    public void printIngredients() {
-        System.out.println("Ingredients for " + name + ":");
-        for (Ingredient ingredient : ingredients) {
-            System.out.println(ingredient.getName());
-        }
+
+    public void printRecipe() {
+        System.out.println(recipeJson.toString(4));
     }
 
     // Getters.

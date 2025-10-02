@@ -1,9 +1,12 @@
 package com.recipez.user;
 
+import com.recipez.recipe.Recipe;
 import com.recipez.util.Log;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
 
@@ -17,6 +20,9 @@ public class User {
     private int age;
     private int bmr;
     private boolean isMan;
+
+    // Current recipes extracted from Users.json, will dynamically change throughout runtime of application.
+    private List<Recipe> recipes;
 
     // Sole purpose, logging in users
     public User(String name, String password) {
@@ -50,6 +56,7 @@ public class User {
         this.height = height;
         this.isMan = isMan;
         this.age = age;
+        this.recipes = new ArrayList<>();
 
         try {
             userManager = new UserManager(this);
@@ -96,17 +103,8 @@ public class User {
     public int getBMR() {
         return bmr;
     }
-
-    public void printInfo() {
-        Log.info("User name : " + name);
-        Log.info("Password : " + password);
-        Log.info("BodyGoal : " + bodyGoal);
-        Log.info("DietType : " + dietType);
-        Log.info("Weight : " + weight);
-        Log.info("Height : " + height);
-        Log.info("Age : " + age);
-        Log.info("BMR : " + bmr);
-        Log.info("isMan : " + isMan);
+    public List<Recipe> getRecipes() {
+        return recipes;
     }
 
     public void setBodyGoal(BodyGoal bodyGoal) {
@@ -129,5 +127,8 @@ public class User {
     }
     public void setBMR(int bmr) {
         this.bmr = bmr;
+    }
+    public void setRecipes(List<Recipe> recipes) {
+        this.recipes = recipes;
     }
 }

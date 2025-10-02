@@ -1,5 +1,7 @@
 package com.recipez.user;
 
+import com.recipez.recipe.Ingredient;
+import com.recipez.recipe.MeasurementType;
 import com.recipez.recipe.Recipe;
 import com.recipez.util.Log;
 import org.json.JSONArray;
@@ -11,6 +13,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserManager {
     private static final String DATA_DIR = "Data";
@@ -18,8 +22,6 @@ public class UserManager {
     private static final Path DEFAULT_PATH = Paths.get(DATA_DIR, FILE_NAME);
 
     private User user;
-
-    private Path pathToJsonFile;
     // Holds actual JSONArray object for our FILE_NAME in DATA_DIR, we are using a library for this.
     private JSONArray usersJson;
     // Holds the user specific JSONObject found within JSONArray
@@ -31,14 +33,12 @@ public class UserManager {
 
         usersJson = new JSONArray();
 
-        // Defines where recipe data is stored
-        this.pathToJsonFile = DEFAULT_PATH;
         // Creates Data folder to store json in either project directory or working directory of a built jar file.
-        Files.createDirectories(this.pathToJsonFile.getParent());
+        Files.createDirectories(DEFAULT_PATH.getParent());
 
         // If the Users.json already exists, we don't need to create another one.
-        if (!Files.exists(this.pathToJsonFile)) {
-            Files.createFile(pathToJsonFile);
+        if (!Files.exists(DEFAULT_PATH)) {
+            Files.createFile(DEFAULT_PATH);
             Log.info("Created file " + FILE_NAME + " in " + DATA_DIR);
         } else {
             // Instead, let's load from Users.json on startup.
@@ -48,8 +48,11 @@ public class UserManager {
         }
 
         // If the user exists, let's assign it's specific JSON Object to our instance variable userJson to store it for later modifications or updates.
-        // Might be null if new user, but pushUserInformationIntoUsersJson() will handle and create a new user JSONObject.
+        // Might be null if new user, but updateUserInformationIntoUsersJson() will handle and create a new user JSONObject.
         userJson = getUserJSONObject();
+        // This makes sure that all the recipes from the json are put into are user recipes data structure.
+        // This way we can manipulate the data of the recipes and later push it back to the json
+        copyRecipesFromUsersJsonToUsersRecipesList();
     }
 
     public void updateUserInformationIntoUsersJson() {
@@ -59,7 +62,6 @@ public class UserManager {
         // If user doesn't exist in the usersJson then create a new user JSON object
         if (userJson == null) {
             userJson = new JSONObject();
-
             // These are all the attributes of the user we want to save into the main users.json
             userJson.put("name", user.getName());
             userJson.put("password", user.getPassword());
@@ -71,7 +73,6 @@ public class UserManager {
             userJson.put("bmr", user.getBMR());
             userJson.put("isMan", user.getIsMan());
             userJson.put("recipes", new JSONArray());
-
         } else { // If user does exist, let's update the usersJson file to accommodate for any changes to attributes of user.
 
             int indexOfUserJSONObject = getIndexOfUserJSONObject();
@@ -110,6 +111,28 @@ public class UserManager {
         }
     }
 
+    public void copyRecipesFromUsersJsonToUsersRecipesList() {
+        pullJson();
+        List<Recipe> recipes = new ArrayList<>(); // will be returned at end of function
+
+        JSONArray recipesJsonArray = userJson.getJSONArray("recipes");
+
+        // Loop through all recipes
+        for (int i = 0; i < recipesJsonArray.length(); i++) {
+            JSONObject currentRecipeJsonObject = recipesJsonArray.getJSONObject(i);
+            // For every recipe, loop through its ingredients, then create recipe and store in return variable "recipes"
+            JSONArray ingredientsJsonArray = currentRecipeJsonObject.getJSONArray("ingredients");
+            List<Ingredient> ingredients = new ArrayList<>(); // changes often for new recipes
+            for (int j = 0; j < ingredientsJsonArray.length(); j++) {
+                JSONObject currentIngredientJsonObject = ingredientsJsonArray.getJSONObject(j);
+                ingredients.add(new Ingredient(currentIngredientJsonObject.getString("name"), currentIngredientJsonObject.getFloat("quantifier"), MeasurementType.valueOf(currentIngredientJsonObject.getString("measurementType"))));
+            }
+            recipes.add(new Recipe(currentRecipeJsonObject.getString("name"), currentRecipeJsonObject.getString("description"), currentRecipeJsonObject.getString("instructions"), ingredients, currentRecipeJsonObject.getInt("calories")));
+        }
+        user.setRecipes(recipes);
+    }
+
+
     // Used for when we create accounts with just parameters "name" and "password"
     // We find the information we need in Users.json and assign them to the instance variables in the user object.
     public void loadUserDataFromUsersJson() {
@@ -144,11 +167,13 @@ public class UserManager {
 
         int bmr;
 
+        double baseEquation = (10 * weightToKg) + (6.25 * heightToCm) - (5 * age);
+
         // BMR Equation -> Mifflin–St Jeor Equation (modern, most commonly used)
         if (user.getIsMan())
-            bmr = (int)((10 * weightToKg) + (6.25 * heightToCm) - (5 * age) + menBMRConstant);
+            bmr = (int)(baseEquation + menBMRConstant);
         else ///  BMR Equation for Women
-            bmr = (int)((10 * weightToKg) + (6.25 * heightToCm) - (5 * age) + womenBMRConstant);
+            bmr = (int)(baseEquation + womenBMRConstant);
 
         return bmr;
     }
@@ -178,11 +203,37 @@ public class UserManager {
                 Log.info("Successfully stored recipe called " + recipe.getName() + " for " + user.getName());
 
                 pushJson(); // Update Users.json
+
+                copyRecipesFromUsersJsonToUsersRecipesList(); // Update users' recipe data structure
                 return;
             }
         }
         Log.warning("Failed storing recipe " + recipe.getName() + " into " + user.getName());
     }
+
+    // Remove a recipe from the json database Users.json and also update users data structure "recipes" accordingly
+    public void removeRecipe(String name) {
+        pullJson();
+        JSONArray recipesJsonArray = userJson.getJSONArray("recipes");
+        for (int i = 0; i < recipesJsonArray.length(); i++) {
+            JSONObject currentRecipeJsonObject = recipesJsonArray.getJSONObject(i);
+
+            // Found a match, delete
+            if (currentRecipeJsonObject.getString("name").equals(name)) {
+                recipesJsonArray.remove(i);
+                //userJson.remove("recipes");
+                userJson.put("recipes", recipesJsonArray); // replace recipes with new updated recipes array object
+                usersJson.remove(getIndexOfUserJSONObject()); // remove the last userJson
+                usersJson.put(userJson); // add updated userJson
+                pushJson(); // write to file
+                copyRecipesFromUsersJsonToUsersRecipesList(); // update users recipe data structure
+                break;
+            }
+
+        }
+
+    }
+
 
     private JSONObject getUserJSONObject() {
         for (int i = 0; i < usersJson.length(); i++) {
@@ -202,10 +253,11 @@ public class UserManager {
         return -1;
     }
 
+
     // Ensures that we have the latest JSON data to store it into our JSON Array Object in this class.
     private void pullJson() {
         try {
-            String content = Files.readString(pathToJsonFile, StandardCharsets.UTF_8);
+            String content = Files.readString(DEFAULT_PATH, StandardCharsets.UTF_8);
             // CHECK: Don't pull from json file if it is empty.
             // This prevents an error for below init.
             if (content.isEmpty())
