@@ -23,13 +23,13 @@ public class Application {
     public Application() {
         initWindow();
 
-        //user = new User("Bob", "123", BodyGoal.MAINTAIN, DietType.NONE, 154.324, 5.57743, 30, true);
-        //loginUser(new User("Bob", "123"));
-        //registerUser(new User("Dorothy", "orange", BodyGoal.MAINTAIN, DietType.NONE, 125, 5.6, 19, true));
-        loginUser(new User("Dorothy", "orange"));
-        activeUser.setAge(25);
-        activeUser.getUserManager().updateUserInformationIntoUsersJson();
-        activeUser.printInfo();
+        loginUser(new User("Jordan", "123"));
+
+        activeUser.getUserManager().removeRecipe("Salad");
+
+/*        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(new Ingredient("Lettuce", 1, MeasurementType.CUP));
+        activeUser.getUserManager().storeRecipe(new Recipe("Salad", "A healthy snack.", "Toss in a bowl.", ingredients, 100));*/
 
     }
 
@@ -51,10 +51,8 @@ public class Application {
             // Login user, set active user to this user
            activeUser = user;
            Log.info("Successfully logged in user with name " + user.getName());
-           user.printInfo();
        } else {
            Log.warning("Failed to login user with name " + user.getName());
-           //user.printInfo();
        }
     }
 
