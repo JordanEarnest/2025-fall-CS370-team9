@@ -55,7 +55,7 @@ public class Recipe {
     // total calories in the meal
     private int calories;
 
-    private dietType dietType;
+    private DietType dietType;
     // Store all ingredients into an ArrayList (dynamically sizes).
     // Data is lost when application closes.
     private List<Ingredient> ingredients;
