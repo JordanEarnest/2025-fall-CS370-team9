@@ -1,5 +1,5 @@
 package com.recipez.recipe;
 
 public enum DietType {
-    NONE, PALEO, KETO, VEGETARIAN, VEGAN //Specifications of recipe ingredients.
+    NONE, VEGAN, VEGETARIAN, PESCATARIAN, KETO, CARNIVOROUS
 }
