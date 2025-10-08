@@ -3,7 +3,7 @@ package com.recipez.ui;
 import javax.swing.*;
 import java.awt.*;
 
-public class Authentication {
+public class AuthenticationUI {
 
     private CardLayout authenticationCardLayout;
 
@@ -13,7 +13,7 @@ public class Authentication {
 
     private JPanel registerPanel;
 
-    public Authentication() {
+    public AuthenticationUI() {
         authenticationCardLayout = new CardLayout();
         authenticationPanel = new JPanel(authenticationCardLayout);
 

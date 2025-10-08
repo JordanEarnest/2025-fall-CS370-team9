@@ -1,12 +1,11 @@
 package com.recipez.ui;
 
-import com.formdev.flatlaf.FlatClientProperties;
 import com.recipez.user.User;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Dashboard {
+public class DashboardUI {
 
     private JPanel mainPanel;
     private JPanel sidePanel;
@@ -17,7 +16,7 @@ public class Dashboard {
 
     private User activeUser;
 
-    public Dashboard(User activeUser) {
+    public DashboardUI(User activeUser) {
         this.activeUser = activeUser;
         // Main panel to fit in JFrame, can add additional panels to EAST, WEST, NORTH, and SOUTH directions
         mainPanel =  new JPanel(new BorderLayout());

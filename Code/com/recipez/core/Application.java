@@ -1,9 +1,8 @@
 package com.recipez.core;
 
-import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.FlatLightLaf;
-import com.recipez.ui.Authentication;
-import com.recipez.ui.Dashboard;
+import com.recipez.ui.AuthenticationUI;
+import com.recipez.ui.DashboardUI;
 import com.recipez.ui.Window;
 import com.recipez.user.User;
 import com.recipez.util.Log;
@@ -23,9 +22,9 @@ public class Application {
 
     private User activeUser;
 
-    private Dashboard dashboardUI;
+    private DashboardUI dashboardUI;
 
-    private Authentication authenticationUI;
+    private AuthenticationUI authenticationUI;
 
 
     public Application() {
@@ -34,7 +33,7 @@ public class Application {
         window = new Window(TITLE, WIDTH, HEIGHT);
 
 
-        authenticationUI = new Authentication();
+        authenticationUI = new AuthenticationUI();
 
         window.add(authenticationUI.getAuthenticationPanel());
 

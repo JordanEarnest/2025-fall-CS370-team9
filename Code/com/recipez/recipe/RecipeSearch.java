@@ -1,33 +1,33 @@
 package com.recipez.recipe;
 
 
-import com.recipez.user.DietType;
+import com.recipez.util.DietType;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeSearch {
 
-    //search recipe by diet type
-    public static List<Recipe> filterByDietType(List<Recipe> recipes, DietType dietType) {
+    //search recipe by diet type (helper method)
+    private static List<Recipe> filterByDietType(List<Recipe> recipes, DietType dietType) {
         List<Recipe> filteredRecipes = new ArrayList<>();
         for (Recipe r : recipes) {
-            if(r.getDietType() == dietType){ //need to import dietType from user class
+            if( r.getDietType().equals(dietType) ){ //need to import dietType from user class
                 filteredRecipes.add(r);
             }
         }
         return filteredRecipes;
     }
-    // Search vegetarian recipes (helper method)
+    // Search vegetarian recipes
     public static List<Recipe> filterVegetarian(List<Recipe> recipes) {
         return filterByDietType(recipes, DietType.VEGETARIAN);
     }
 
-    // Search vegan recipes (helper method)
+    // Search vegan recipes
     public static List<Recipe> filterVegan(List<Recipe> recipes) {
         return filterByDietType(recipes, DietType.VEGAN);
     }
 
-    // Search vegetarian recipes (helper method)
+    // Search vegetarian recipes
     public static List<Recipe> filterPescatarian(List<Recipe> recipes) {
         return filterByDietType(recipes, DietType.PESCATARIAN);
     }

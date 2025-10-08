@@ -4,6 +4,7 @@ import com.recipez.user.User;
 import org.json.*;
 import java.util.ArrayList;
 import java.util.List;
+import com.recipez.util.DietType;
 
 public class Recipe {
     /*
@@ -60,12 +61,13 @@ public class Recipe {
     // Data is lost when application closes.
     private List<Ingredient> ingredients;
 
-    public Recipe(String name, String description, String instructions, List<Ingredient> ingredients, int calories) {
+    public Recipe(String name, String description, String instructions, List<Ingredient> ingredients, int calories, DietType dietType) {
         this.name = name;
         this.description = description;
         this.instructions = instructions;
         this.ingredients = ingredients;
         this.calories = calories;
+        this.dietType = dietType;
 
         // Setup JSONArray for recipe
         recipeJson = new JSONObject();
@@ -73,16 +75,13 @@ public class Recipe {
         recipeJson.put("description", description);
         recipeJson.put("instructions", instructions);
         recipeJson.put("calories", calories);
+        recipeJson.put("dietType", dietType);
 
         ingredientsJson = new JSONArray();
 
         for (Ingredient ingredient : ingredients)
             ingredientsJson.put(ingredient.getIngredientJson());
         recipeJson.put("ingredients", ingredientsJson);
-    }
-
-    public void printRecipe() {
-        System.out.println(recipeJson.toString(4));
     }
 
     // Getters.
@@ -94,6 +93,9 @@ public class Recipe {
     }
     public String getInstructions() {
         return instructions;
+    }
+    public DietType getDietType() {
+        return dietType;
     }
     public JSONObject getRecipeJson() {
         return recipeJson;

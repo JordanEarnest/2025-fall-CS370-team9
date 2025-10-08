@@ -1,8 +1,8 @@
 package com.recipez.user;
 
 import com.recipez.recipe.Recipe;
+import com.recipez.util.DietType;
 import com.recipez.util.Log;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 import java.util.ArrayList;

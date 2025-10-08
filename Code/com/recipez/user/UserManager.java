@@ -3,6 +3,7 @@ package com.recipez.user;
 import com.recipez.recipe.Ingredient;
 import com.recipez.recipe.MeasurementType;
 import com.recipez.recipe.Recipe;
+import com.recipez.util.DietType;
 import com.recipez.util.Log;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -127,7 +128,7 @@ public class UserManager {
                 JSONObject currentIngredientJsonObject = ingredientsJsonArray.getJSONObject(j);
                 ingredients.add(new Ingredient(currentIngredientJsonObject.getString("name"), currentIngredientJsonObject.getFloat("quantifier"), MeasurementType.valueOf(currentIngredientJsonObject.getString("measurementType"))));
             }
-            recipes.add(new Recipe(currentRecipeJsonObject.getString("name"), currentRecipeJsonObject.getString("description"), currentRecipeJsonObject.getString("instructions"), ingredients, currentRecipeJsonObject.getInt("calories")));
+            recipes.add(new Recipe(currentRecipeJsonObject.getString("name"), currentRecipeJsonObject.getString("description"), currentRecipeJsonObject.getString("instructions"), ingredients, currentRecipeJsonObject.getInt("calories"), DietType.valueOf(currentRecipeJsonObject.getString("dietType"))));
         }
         user.setRecipes(recipes);
     }
