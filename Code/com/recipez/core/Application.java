@@ -1,31 +1,48 @@
 package com.recipez.core;
 
-import com.recipez.recipe.Ingredient;
-import com.recipez.recipe.MeasurementType;
-import com.recipez.recipe.Recipe;
-import com.recipez.user.BodyGoal;
-import com.recipez.user.DietType;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.recipez.ui.Authentication;
+import com.recipez.ui.Dashboard;
+import com.recipez.ui.Window;
 import com.recipez.user.User;
-import com.recipez.user.UserManager;
 import com.recipez.util.Log;
 
 import javax.swing.*;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import javax.swing.plaf.FontUIResource;
+import java.awt.*;
+
 
 public class Application {
 
-    private JFrame window;
+    private final String TITLE = "RecipeZ";
+    private final int WIDTH = 1280;
+    private final int HEIGHT = 720;
+
+    private Window window;
 
     private User activeUser;
 
+    private Dashboard dashboardUI;
+
+    private Authentication authenticationUI;
+
+
     public Application() {
-        initWindow();
+        FlatLightLaf.setup(); // Setup better look and feel (UI) for Swing
+        UIManager.put("defaultFont", new FontUIResource("Verdana", Font.PLAIN, 12)); // Make default font Verdana
+        window = new Window(TITLE, WIDTH, HEIGHT);
 
-        loginUser(new User("Jordan", "123"));
 
-        activeUser.getUserManager().removeRecipe("Salad");
+        authenticationUI = new Authentication();
+
+        window.add(authenticationUI.getAuthenticationPanel());
+
+
+        window.display();
+        //loginUser(new User("Jordan", "123"));
+
+        //activeUser.getUserManager().removeRecipe("Salad");
 
 /*        List<Ingredient> ingredients = new ArrayList<>();
         ingredients.add(new Ingredient("Lettuce", 1, MeasurementType.CUP));
@@ -33,14 +50,6 @@ public class Application {
 
     }
 
-    private void initWindow() {
-        window = new JFrame();
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setSize(1280, 720);
-        window.setResizable(false);
-        window.setLocationRelativeTo(null);
-        window.setVisible(true);
-    }
 
     private void registerUser(User user) {
         Log.info("Successfully registered user with name " + user.getName());
