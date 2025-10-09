@@ -112,6 +112,7 @@ public class UserManager {
         }
     }
 
+    // Imports data from Json to our recipes data structure list
     public void copyRecipesFromUsersJsonToUsersRecipesList() {
         pullJson();
         List<Recipe> recipes = new ArrayList<>(); // will be returned at end of function

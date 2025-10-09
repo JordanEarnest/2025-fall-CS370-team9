@@ -32,15 +32,17 @@ public class RecipeSearch {
         return filterByDietType(recipes, DietType.PESCATARIAN);
     }
 
-    // Search vegetarian recipes (helper method)
+    // Search vegetarian recipes (
     public static List<Recipe> filterKeto(List<Recipe> recipes) {
         return filterByDietType(recipes, DietType.KETO);
     }
 
-    // Search vegetarian recipes (helper method)
+    // Search vegetarian recipes
     public static List<Recipe> filterCarnivorous(List<Recipe> recipes) {
         return filterByDietType(recipes, DietType.CARNIVOROUS);
     }
+
+
 
 
 }
