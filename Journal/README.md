@@ -4,7 +4,7 @@ ___
 ### Time
 7/26/2025 at 6:00 PM
 ### Attendance
-Jordan, Jaedon, Husman, David
+Jordan, Jaedon, usman, David
 ### Method
 Online via discord call
 ### Talking Points
