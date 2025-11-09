@@ -1,4 +1,5 @@
 # Meeting Journal 
+
 ___
 ## Meeting #1 ✅
 ### Time
@@ -45,3 +46,70 @@ Current instance variables in classes
   - name
   - measurementType
   - quantifier
+
+___
+## Meeting #2 ✅
+### Time
+10/10/2025 at 5:30 PM
+### Attendance
+Jordan, Jaedon, Usman, David
+### Method
+Online via discord call
+### Talking Points
+* Discuss UI and visual elements  
+* Design home page  
+* Emphasis on following use case diagram  
+* Design recipes page and button layout  
+* Create logo  
+* Learning Java Swing  
+* Time for questions, concerns, or ideas
+### Notes
+Currently working on:
+* Jordan -> feature/Dashboard-UI  
+* Jaedon -> feature/recipe-sort-filter  
+* David -> feature/login-ui-interface  
+* Usman -> feature/user-management/RecipeSearch  
+
+Use Case Diagram Layout  
+**Use Cases**
+**Authenticated User**
+* Log on  
+* Create Recipe  
+* Remove Recipe  
+* Edit Recipe  
+* Search Recipe  
+* Filter Recipe  
+**Unauthenticated User**
+* Create User  
+
+___
+## Meeting #3 ✅
+### Time
+10/30/2025 at 6:30 PM
+### Attendance
+Jordan, Jaedon, Usman, David
+### Method
+Online via discord call
+### Talking Points
+* Implementing search functions  
+* Implementing password encryption  
+* Implementing interface between database and user  
+* Implementing UI  
+* Implementing recipe search  
+* Implementing filter and sort
+* Time for questions, concerns, or ideas
+### Notes
+Currently working on:
+* Jordan -> feature/Dashboard-UI  
+* Jaedon -> feature/recipe-sort-filter  
+* David -> feature/login-ui-interface  
+* Usman -> feature/RecipeSearch  
+
+UI Flow  
+**Home Page UX Diagram**
+* Home  
+* Dashboard  
+* Recipes  
+* Favorites  
+* Settings  
+* User Manager  
