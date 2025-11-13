@@ -113,3 +113,18 @@ UI Flow
 * Favorites  
 * Settings  
 * User Manager  
+
+
+__
+## Meeting #4 ✅
+### Time
+11/12/2025 at 6:30 PM
+### Talking Points
+* We have to complete the connections between windows
+* Learn to use and implement card layouts to implement the previous idea
+### Notes
+Currently working on:
+* Jordan -> feature/Dashboard-UI  
+* Jaedon -> feature/recipe-sort-filter  
+* David -> feature/login-ui-interface  
+* Usman -> feature/RecipeSearch
