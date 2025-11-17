@@ -42,6 +42,20 @@ public class RecipeSearch {
         return filterByDietType(recipes, DietType.CARNIVOROUS);
     }
 
+    public static List<Recipe> searchByString(List<Recipe> recipes, String searchString) {
+        List<Recipe> foundRecipes = new ArrayList<>();
+
+        for (Recipe r : recipes) {
+            String lowercaseRecipeName = r.getName().toLowerCase();
+            String lowercaseDescription = r.getDescription().toLowerCase();
+            if (lowercaseRecipeName.contains(searchString.toLowerCase()) ||
+            lowercaseDescription.contains(searchString.toLowerCase())) {
+                foundRecipes.add(r);
+            }
+        }
+        return foundRecipes;
+    }
+
 
     //*************************
     //QUICKSORT BY CALORIES
