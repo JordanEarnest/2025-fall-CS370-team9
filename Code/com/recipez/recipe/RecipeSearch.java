@@ -11,7 +11,7 @@ public class RecipeSearch {
     private static List<Recipe> filterByDietType(List<Recipe> recipes, DietType dietType) {
         List<Recipe> filteredRecipes = new ArrayList<>();
         for (Recipe r : recipes) {
-            if( r.getDietType().equals(dietType) ){ //need to import dietType from user class
+            if (r.getDietType().equals(dietType)) { //need to import dietType from user class
                 filteredRecipes.add(r);
             }
         }
@@ -57,6 +57,164 @@ public class RecipeSearch {
     }
 
 
+    //*************************
+    //QUICKSORT BY CALORIES
+    //*************************
+    // Sort the recipe array in ascending order based on calories, Partition helper function
+    static int partitionCaloriesAscending(List<Recipe> recipes, int low, int high) {
+        int pivot = recipes.get(high).getCalories();
+        int i = (low - 1);
+        for(int j = low; j < high; j++) {
+            if (recipes.get(j).getCalories() <= pivot) {
+                i++;
+                //swap
+                Recipe temp = recipes.get(i);
+                recipes.set(i, recipes.get(j));
+                recipes.set(j, temp);
+            }
+        }
+        // Swap [high] and [i+1] and pivot
+        Recipe temp = recipes.get(i + 1);
+        recipes.set(i + 1, recipes.get(high));
+        recipes.set(high, temp);
+        return i + 1;
+    }
 
+    // Sort the recipe array in Descending order based on calories, Partition helper function
+    static int partitionCaloriesDescending(List<Recipe> recipes, int low, int high) {
+        int pivot = recipes.get(high).getCalories();
+        int i = (low - 1);
+        for(int j = low; j < high; j++) {
+            if (recipes.get(j).getCalories() >= pivot) {
+                i++;
+                //swap
+                Recipe temp = recipes.get(i);
+                recipes.set(i, recipes.get(j));
+                recipes.set(j, temp);
+            }
+        }
+        // Swap [high] and [i+1] and pivot
+        Recipe temp = recipes.get(i + 1);
+        recipes.set(i + 1, recipes.get(high));
+        recipes.set(high, temp);
+        return i + 1;
+    }
+
+    // Sort the recipe array in ascending order based on calories (Wrapper Function, Sorts whole list)
+    public static void quickSortCaloriesAscending(List<Recipe> recipes) {
+        if(recipes.size() < 2) {
+            return; //Recipe is already sorted
+        }
+        quickSortCaloriesAscending(recipes, 0, recipes.size() - 1);
+    }
+
+    // Sort the recipe array in ascending order based on calories (Wrapper Function, Sorts whole list)
+    public static void quickSortCaloriesDescending(List<Recipe> recipes) {
+        if(recipes.size() < 2) {
+            return; //Recipe is already sorted
+        }
+        quickSortCaloriesDescending(recipes, 0, recipes.size() - 1);
+    }
+
+    // Sort the recipe array in ascending order based on calories
+    public static void quickSortCaloriesAscending(List<Recipe> recipes, int low, int high) {
+        if (low < high){
+            int pivotIndex = partitionCaloriesAscending(recipes, low, high);
+            quickSortCaloriesAscending(recipes, low, pivotIndex - 1);
+            quickSortCaloriesAscending(recipes, pivotIndex + 1, high);
+        }
+    }
+
+    // Sort the recipe array in ascending order based on calories
+    public static void quickSortCaloriesDescending(List<Recipe> recipes, int low, int high){
+        if(low < high){
+            int pivotIndex = partitionCaloriesAscending(recipes, low, high);
+            quickSortCaloriesDescending(recipes, low ,pivotIndex - 1);
+            quickSortCaloriesDescending(recipes, pivotIndex +  1, high);
+        }
+    }
+
+    
+    //*************************
+    //QUICKSORT BY NAME
+    //*************************
+    // Sort the recipe array in alphabetically ascending order based on Name, Partition helper function
+    static int partitionNameAscending(List<Recipe> recipes, int low, int high) {
+        String pivot = recipes.get(high).getName();
+        int i = (low - 1);
+        for(int j = low; j < high; j++) {
+            if (recipes.get(j).getName().compareTo(pivot) <= 0) {
+                i++;
+                //swap
+                Recipe temp = recipes.get(i);
+                recipes.set(i, recipes.get(j));
+                recipes.set(j, temp);
+            }
+        }
+
+        // Swap [high] and [i+1] and pivot
+        Recipe temp = recipes.get(i + 1);
+        recipes.set(i + 1, recipes.get(high));
+        recipes.set(high, temp);
+        return i + 1;
+    }
+
+    // Sort the recipe array in alphabetically Descending order based on Name, Partition helper function
+    static int partitionNameDescending(List<Recipe> recipes, int low, int high) {
+        String pivot = recipes.get(high).getName();
+        int i = (low - 1);
+        for(int j = low; j < high; j++) {
+            if (recipes.get(j).getName().compareTo(pivot) >= 0) {
+                i++;
+                //swap
+                Recipe temp = recipes.get(i);
+                recipes.set(i, recipes.get(j));
+                recipes.set(j, temp);
+            }
+        }
+
+        // Swap [high] and [i+1] and pivot
+        Recipe temp = recipes.get(i + 1);
+        recipes.set(i + 1, recipes.get(high));
+        recipes.set(high, temp);
+        return i + 1;
+    }
+
+    // Sort the recipe array in ascending alphabetic order based on Name (Wrapper Function, Sorts whole list)
+    public static void quickSortNameAscending(List<Recipe> recipes) {
+        if(recipes.size() < 2) {
+            return; //Recipe is already sorted
+        }
+        quickSortNameAscending(recipes, 0, recipes.size() - 1);
+
+    }
+
+    // Sort the recipe array in Descending alphabetic order based on Name (Wrapper Function, Sorts whole list)
+    public static void quickSortNameDescending(List<Recipe> recipes) {
+        if(recipes.size() < 2) {
+            return; //Recipe is already sorted
+        }
+        quickSortNameDescending(recipes, 0, recipes.size() - 1);
+
+    }
+
+    // Sort the recipe array in alphabetically ascending order based on Name
+    public static void quickSortNameAscending(List<Recipe> recipes, int low, int high) {
+        if (low < high){
+            int pivotIndex = partitionCaloriesAscending(recipes, low, high);
+            quickSortNameAscending(recipes, low, pivotIndex - 1);
+            quickSortNameAscending(recipes, pivotIndex + 1, high);
+        }
+    }
+
+    // Sort the recipe array in alphabetically Descending order based on Name
+    public static void quickSortNameDescending(List<Recipe> recipes, int low, int high) {
+        if (low < high){
+            int pivotIndex = partitionCaloriesAscending(recipes, low, high);
+            quickSortNameDescending(recipes, low, pivotIndex - 1);
+            quickSortNameDescending(recipes, pivotIndex + 1, high);
+        }
+    }
 
 }
+

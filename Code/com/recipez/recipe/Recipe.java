@@ -94,6 +94,7 @@ public class Recipe {
     public String getInstructions() {
         return instructions;
     }
+    public int getCalories() { return calories; }
     public DietType getDietType() {
         return dietType;
     }
