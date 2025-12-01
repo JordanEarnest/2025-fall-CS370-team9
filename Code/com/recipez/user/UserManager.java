@@ -51,6 +51,7 @@ public class UserManager {
         // If the user exists, let's assign it's specific JSON Object to our instance variable userJson to store it for later modifications or updates.
         // Might be null if new user, but updateUserInformationIntoUsersJson() will handle and create a new user JSONObject.
         userJson = getUserJSONObject();
+        updateUserInformationIntoUsersJson();
         // This makes sure that all the recipes from the json are put into are user recipes data structure.
         // This way we can manipulate the data of the recipes and later push it back to the json
         copyRecipesFromUsersJsonToUsersRecipesList();
