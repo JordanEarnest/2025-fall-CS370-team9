@@ -1,12 +1,24 @@
-[{
-    "recipes": [],
-    "password": "$2a$10$2OavWlChOY/B8Y/D7MTN7eZUPKAdqr5mc.MstJNhizuSczDpH5pOW",
-    "bodyGoal": "MAINTAIN",
-    "bmr": 1543,
-    "name": "Jordan",
-    "dietType": "NONE",
-    "weight": 125,
-    "isMan": true,
-    "age": 19,
-    "height": 5.6
-}]
+[
+    {
+        "recipes": [],
+        "bodyGoal": "BULK",
+        "bmr": 1563,
+        "name": "Jordan",
+        "dietType": "NONE",
+        "weight": 130,
+        "isMan": true,
+        "age": 19,
+        "height": 5.583333333333333
+    },
+    {
+        "recipes": [],
+        "bodyGoal": "CUT",
+        "bmr": 1036,
+        "name": "123",
+        "dietType": "NONE",
+        "weight": 123,
+        "isMan": false,
+        "age": 123,
+        "height": 6.583333333333333
+    }
+]
