@@ -28,9 +28,12 @@ public class UserManager {
     // Holds the user specific JSONObject found within JSONArray
     private JSONObject userJson;
 
-    public UserManager(User user) throws IOException {
+    private boolean isRegistration;
+
+    public UserManager(User user, boolean isRegistration) throws IOException {
         // Set the currently logged-in user
         this.user = user;
+        this.isRegistration = isRegistration;
 
         usersJson = new JSONArray();
 
@@ -51,10 +54,12 @@ public class UserManager {
         // If the user exists, let's assign it's specific JSON Object to our instance variable userJson to store it for later modifications or updates.
         // Might be null if new user, but updateUserInformationIntoUsersJson() will handle and create a new user JSONObject.
         userJson = getUserJSONObject();
-        updateUserInformationIntoUsersJson();
-        // This makes sure that all the recipes from the json are put into are user recipes data structure.
-        // This way we can manipulate the data of the recipes and later push it back to the json
-        copyRecipesFromUsersJsonToUsersRecipesList();
+
+        if (isRegistration) {
+            updateUserInformationIntoUsersJson();
+        } else {
+            loadUserDataFromUsersJson();
+        }
     }
 
     public void updateUserInformationIntoUsersJson() {
@@ -67,8 +72,8 @@ public class UserManager {
             // These are all the attributes of the user we want to save into the main users.json
             userJson.put("name", user.getName());
             userJson.put("password", user.getPassword());
-            userJson.put("bodyGoal", user.getBodyGoal());
-            userJson.put("dietType", user.getDietType());
+            userJson.put("bodyGoal", user.getBodyGoal().name());
+            userJson.put("dietType", user.getDietType().name());
             userJson.put("weight", user.getWeight());
             userJson.put("height", user.getHeight());
             userJson.put("age", user.getAge());
@@ -80,8 +85,9 @@ public class UserManager {
             int indexOfUserJSONObject = getIndexOfUserJSONObject();
 
             userJson.put("name", user.getName());
-            userJson.put("bodyGoal", user.getBodyGoal());
-            userJson.put("dietType", user.getDietType());
+            userJson.put("password", user.getPassword());
+            userJson.put("bodyGoal", user.getBodyGoal().name());
+            userJson.put("dietType", user.getDietType().name());
             userJson.put("weight", user.getWeight());
             userJson.put("height", user.getHeight());
             userJson.put("age", user.getAge());

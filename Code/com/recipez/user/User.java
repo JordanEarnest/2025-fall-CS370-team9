@@ -24,27 +24,28 @@ public class User {
     // Current recipes extracted from Users.json, will dynamically change throughout runtime of application.
     private List<Recipe> recipes;
 
+    // Login-only constructor — does NOT create UserManager or load JSON
+/*    public User(String name, String password, boolean loginOnly) {
+        this.name = name;
+        this.password = password;
+    }*/
+
     // Sole purpose, logging in users
     public User(String name, String password) {
         // Create default values but will certainly be changed through userManager when user is found in Users.json
         this.name = name;
         this.password = password;
-        this.bodyGoal = BodyGoal.NONE;
-        this.dietType = DietType.NONE;
-        this.weight = 0.0;
-        this.height = 0.0;
-        this.age = 0;
-        this.bmr = 0;
-        this.isMan = false;
+
 
         try {
-            userManager = new UserManager(this);
+            userManager = new UserManager(this, false);
         } catch (IOException e) {
             Log.error("Failed to create UserManager for " + this.name);
         }
 
         // Re-initializes instance variables to correct values found in Users.json
         userManager.loadUserDataFromUsersJson();
+        userManager.copyRecipesFromUsersJsonToUsersRecipesList();
     }
 
     // Sole purpose, creating accounts
@@ -59,7 +60,7 @@ public class User {
         this.recipes = new ArrayList<>();
 
         try {
-            userManager = new UserManager(this);
+            userManager = new UserManager(this, true);
         } catch (IOException e) {
             Log.error("Failed to create UserManager for " + this.name);
         }

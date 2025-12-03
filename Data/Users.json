@@ -1,24 +1,128 @@
-[
-    {
-        "recipes": [],
-        "bodyGoal": "BULK",
-        "bmr": 1563,
-        "name": "Jordan",
-        "dietType": "NONE",
-        "weight": 130,
-        "isMan": true,
-        "age": 19,
-        "height": 5.583333333333333
-    },
-    {
-        "recipes": [],
-        "bodyGoal": "CUT",
-        "bmr": 1036,
-        "name": "123",
-        "dietType": "NONE",
-        "weight": 123,
-        "isMan": false,
-        "age": 123,
-        "height": 6.583333333333333
-    }
-]
+[{
+    "recipes": [
+        {
+            "instructions": "Toss in a bowl.",
+            "name": "Salad",
+            "description": "A healthy snack.",
+            "dietType": "VEGETARIAN",
+            "ingredients": [{
+                "name": "Lettuce",
+                "measurementType": "CUP",
+                "quantifier": 1
+            }],
+            "calories": 100
+        },
+        {
+            "instructions": "cook that",
+            "name": "Spaghetti",
+            "description": "a yummy meal",
+            "dietType": "NONE",
+            "ingredients": [
+                {
+                    "name": "Meatball",
+                    "measurementType": "NUMBER",
+                    "quantifier": 4
+                },
+                {
+                    "name": "Noodles",
+                    "measurementType": "CUP",
+                    "quantifier": 1
+                }
+            ],
+            "calories": 500
+        },
+        {
+            "instructions": "asdf",
+            "name": "asdf",
+            "description": "asdf",
+            "dietType": "NONE",
+            "ingredients": [{
+                "name": "asdf",
+                "measurementType": "NUMBER",
+                "quantifier": 1
+            }],
+            "calories": 100
+        },
+        {
+            "instructions": "b",
+            "name": "Bla",
+            "description": "b",
+            "dietType": "NONE",
+            "ingredients": [{
+                "name": "asdfd",
+                "measurementType": "NUMBER",
+                "quantifier": 12
+            }],
+            "calories": 12
+        },
+        {
+            "instructions": "asdf",
+            "name": "ffa",
+            "description": "asdf",
+            "dietType": "NONE",
+            "ingredients": [{
+                "name": "asdf",
+                "measurementType": "NUMBER",
+                "quantifier": 2
+            }],
+            "calories": 123
+        },
+        {
+            "instructions": "cook",
+            "name": "icecream",
+            "description": "yum",
+            "dietType": "NONE",
+            "ingredients": [{
+                "name": "milk",
+                "measurementType": "CUP",
+                "quantifier": 1
+            }],
+            "calories": 1
+        },
+        {
+            "instructions": "cook it oplease",
+            "name": "Onion Soup",
+            "description": "yucky",
+            "dietType": "NONE",
+            "ingredients": [{
+                "name": "Onion",
+                "measurementType": "CUP",
+                "quantifier": 1
+            }],
+            "calories": 100
+        },
+        {
+            "instructions": "make it",
+            "name": "Peanut Butter Jelly Sandwich",
+            "description": "a sandwich",
+            "dietType": "NONE",
+            "ingredients": [
+                {
+                    "name": "Peanut Butter",
+                    "measurementType": "TABLESPOON",
+                    "quantifier": 2
+                },
+                {
+                    "name": "Bread",
+                    "measurementType": "NUMBER",
+                    "quantifier": 2
+                },
+                {
+                    "name": "Jam",
+                    "measurementType": "TABLESPOON",
+                    "quantifier": 1
+                }
+            ],
+            "calories": 200
+        }
+    ],
+    "password": "$2a$10$IUQ4uueuYaJ.vACab42a3OTPW46FI8IjLtN.BQAUJfq1xiPTMaaqa",
+    "bodyGoal": "CUT",
+    "bmr": 138,
+    "name": "Jordan",
+    "dietType": "NONE",
+    "weight": 123,
+    "isMan": true,
+    "age": 123,
+    "height": 1
+}]
