@@ -5,6 +5,7 @@ import com.recipez.core.Application;
 import com.recipez.recipe.Ingredient;
 import com.recipez.recipe.MeasurementType;
 import com.recipez.recipe.Recipe;
+import com.recipez.recipe.RecipeSearch;
 import com.recipez.user.User;
 import com.recipez.util.DietType;
 import com.recipez.util.Log;
@@ -13,6 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class DashboardUI {
@@ -33,13 +35,21 @@ public class DashboardUI {
     private JPanel recipeGridPanel;
 
     private JButton homeButton;
+    private JButton returnButton;
 
+    private JButton searchButton;
     private JButton filterButton;
 
     private JTextField searchField;
 
 
     private JLabel rightSideBarHeaderLabel;
+    private JTextArea recipeInfoLabel;
+
+    private JButton removeRecipeButton;
+
+    private String currentSelectedRecipeName = null;
+    private RecipeCardPanel currentSelectedCardPanel;
 
 
     private List<RecipeCardPanel> recipeCards;
@@ -372,11 +382,21 @@ public class DashboardUI {
                 Application.activeUser.getRecipes().add(recipe);
 
                 // repopulate grid layout for recipe cards
-                populateRecipeGridPanel();
+                populateRecipeGridPanel(Application.activeUser.getRecipes());
 
                 centerPanelCardLayout.show(centerPanelCardContainer, "center");
 
                 JOptionPane.showMessageDialog(createRecipePanel, "Recipe saved successfully!");
+
+                // reset all text entry
+                recipeTitleTextField.setText("");
+                descriptionTextField.setText("");
+                instructionsTextField.setText("");
+                caloriesTextField.setText("");
+
+                ingredientListPanel.removeAll();
+                addIngredientRow.run(); // always make sure theres at least one
+
 
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -384,6 +404,7 @@ public class DashboardUI {
                         "An unexpected error occurred while saving the recipe.");
             }
         });
+
 
 
 
@@ -395,9 +416,10 @@ public class DashboardUI {
         searchBarPanel = new JPanel(new BorderLayout());
         searchBarPanel.setBackground(Color.decode("#121417"));
 
-        leftSideBarPanel = new JPanel();
-        leftSideBarPanel.setLayout(new BoxLayout(leftSideBarPanel, BoxLayout.Y_AXIS));
-        leftSideBarPanel.add(Box.createVerticalStrut(10));
+        leftSideBarPanel = new JPanel(new BorderLayout());
+        //leftSideBarPanel.setLayout(new BoxLayout(leftSideBarPanel, BoxLayout.Y_AXIS));
+        //leftSideBarPanel.add(Box.createVerticalStrut(10));
+        leftSideBarPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         leftSideBarPanel.setBackground(Color.decode("#252A2F"));
 
         leftSideBarPanel.setPreferredSize(new Dimension(120, Integer.MAX_VALUE));
@@ -419,6 +441,23 @@ public class DashboardUI {
 
         rightSideBarHeaderLabel.putClientProperty(FlatClientProperties.STYLE, rightSideBarHeaderStyle);
 
+        recipeInfoLabel = new JTextArea("no recipe selected");
+        recipeInfoLabel.setEditable(false);
+        recipeInfoLabel.setLineWrap(true);
+        recipeInfoLabel.setWrapStyleWord(true);
+
+        recipeInfoLabel.putClientProperty(
+                FlatClientProperties.STYLE,
+                "font: 18; foreground:#C5D1BA; background:#252A2F"
+        );
+
+        // add scroll if text becomes long
+        JScrollPane scroll = new JScrollPane(recipeInfoLabel);
+        scroll.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        scroll.setBackground(Color.decode("#252A2F"));
+
+
+
 
 
         ImageIcon homeButtonIcon = new ImageIcon(getClass().getResource("/assets/home.png"));
@@ -431,15 +470,41 @@ public class DashboardUI {
         homeButton.setMaximumSize(new Dimension(100, 100));
         homeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        ImageIcon filterButtonIcon = new ImageIcon(getClass().getResource("/assets/dropdownButton.png"));
-        Image scaledfilterButtonIcon = filterButtonIcon.getImage().getScaledInstance(50,50,Image.SCALE_SMOOTH);
+        // return button to log out
+        ImageIcon returnButtonIcon = new ImageIcon(getClass().getResource("/assets/return.png"));
+        Image scaledReturnButtonIcon = returnButtonIcon.getImage().getScaledInstance(100,100,Image.SCALE_SMOOTH);
 
-        filterButton = new JButton(new ImageIcon(scaledfilterButtonIcon));
+        returnButton = new JButton(new ImageIcon(scaledReturnButtonIcon));
+        returnButton.setFocusPainted(false);
+        returnButton.setPreferredSize(new Dimension(100, 100));
+        returnButton.setMinimumSize(new Dimension(100, 100));
+        returnButton.setMaximumSize(new Dimension(100, 100));
+        returnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        ImageIcon searchButtonIcon = new ImageIcon(getClass().getResource("/assets/Search.png"));
+        Image scaledSearchButtonIcon = searchButtonIcon.getImage().getScaledInstance(50,50,Image.SCALE_SMOOTH);
+
+        searchButton = new JButton(new ImageIcon(scaledSearchButtonIcon));
+        searchButton.setFocusPainted(false);
+        searchButton.setPreferredSize(new Dimension(50, 50));
+        searchButton.setMinimumSize(new Dimension(50, 50));
+        searchButton.setMaximumSize(new Dimension(50, 50));
+
+        // filter button
+        ImageIcon filterButtonIcon = new ImageIcon(getClass().getResource("/assets/dropdownButton.png"));
+        Image scaledFilterButtonIcon = filterButtonIcon.getImage().getScaledInstance(50,50,Image.SCALE_SMOOTH);
+
+        filterButton = new JButton(new ImageIcon(scaledFilterButtonIcon));
         filterButton.setFocusPainted(false);
         filterButton.setPreferredSize(new Dimension(50, 50));
         filterButton.setMinimumSize(new Dimension(50, 50));
         filterButton.setMaximumSize(new Dimension(50, 50));
-        //filterButton.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+
+
+
+        removeRecipeButton = new JButton("Remove Recipe");
+        removeRecipeButton.setFocusPainted(false);
 
         String homeButtonStyle =
                 "arc:20;"
@@ -451,10 +516,22 @@ public class DashboardUI {
                         + "focusWidth:0;"
                         + "margin:5,5,5,5;";
 
+        String removeRecipeButtonStyle = "arc:20;"
+                + "font:bold 18;"
+                + "foreground:#C5D1BA;"
+                + "background:#252A2F;"
+                + "borderColor:#C5D1BA;"
+                + "borderWidth: 2;"
+                + "margin: 5,5,5,5;";
+
+        removeRecipeButton.putClientProperty(FlatClientProperties.STYLE, removeRecipeButtonStyle);
+
         homeButton.putClientProperty(FlatClientProperties.STYLE,  homeButtonStyle);
+        returnButton.putClientProperty(FlatClientProperties.STYLE,  homeButtonStyle);
+        filterButton.putClientProperty(FlatClientProperties.STYLE,  homeButtonStyle);
 
 
-        String filterButtonStyle =
+        String searchButtonStyle =
                 "arc:20;"
                         + "font:bold;"
                         + "foreground:#C5D1BA;"
@@ -465,9 +542,11 @@ public class DashboardUI {
                         + "margin:5,5,5,5;";
 
 
-        filterButton.putClientProperty(FlatClientProperties.STYLE,  filterButtonStyle);
+        searchButton.putClientProperty(FlatClientProperties.STYLE,  searchButtonStyle);
 
-        leftSideBarPanel.add(homeButton);
+        leftSideBarPanel.add(homeButton, BorderLayout.NORTH);
+        leftSideBarPanel.add(returnButton, BorderLayout.SOUTH);
+        searchBarPanel.add(filterButton, BorderLayout.WEST);
 
         mainPanel.setBackground(Color.decode("#121417"));
 
@@ -488,12 +567,12 @@ public class DashboardUI {
         searchField.putClientProperty(FlatClientProperties.STYLE, searchFieldStyle);
 
 
-        populateRecipeGridPanel();
+        //populateRecipeGridPanel(Application.activeUser.getRecipes());
 
         // when home button is pressed
         homeButton.addActionListener(e -> {
             // Rebuild recipe cards so the UI updates
-            populateRecipeGridPanel();
+            populateRecipeGridPanel(Application.activeUser.getRecipes());
 
             // Switch to the center "home" panel
             centerPanelCardLayout.show(centerPanelCardContainer, "center");
@@ -503,14 +582,63 @@ public class DashboardUI {
             centerPanelCardContainer.repaint();
         });
 
+        searchButton.addActionListener(e -> {
+            // Rebuild recipe cards so the UI updates
+            if (!searchField.getText().isBlank())
+                populateRecipeGridPanel(RecipeSearch.searchByString(Application.activeUser.getRecipes(),  searchField.getText()));
+            else
+                populateRecipeGridPanel(Application.activeUser.getRecipes());
+
+
+            // Switch to the center "home" panel
+
+            // Revalidate + repaint to ensure UI updates visually
+            centerPanel.revalidate();
+            centerPanel.repaint();
+        });
+
+        filterButton.addActionListener(e -> openFilterDialog());
+
+        returnButton.addActionListener(e -> {
+            // Rebuild recipe cards so the UI updates
+            //populateRecipeGridPanel();
+
+            // Switch to the center "home" panel
+            Application.activeInstance.logout();
+            recipeInfoLabel.setText("");
+
+
+        });
+
+        removeRecipeButton.addActionListener(e -> {
+            // Rebuild recipe cards so the UI updates
+            //populateRecipeGridPanel();
+
+            // Switch to the center "home" panel
+            if (currentSelectedRecipeName != null) {
+                Application.activeUser.getUserManager().removeRecipe(currentSelectedRecipeName);
+                recipeGridPanel.remove(currentSelectedCardPanel);
+            }
+
+            centerPanel.revalidate();
+            centerPanel.repaint();
+            recipeInfoLabel.setText("no recipe selected");
+
+        });
+
+
 
         searchBarPanel.add(searchField, BorderLayout.CENTER);
-        searchBarPanel.add(filterButton, BorderLayout.EAST);
+        searchBarPanel.add(searchButton, BorderLayout.EAST);
 
         centerPanel.add(searchBarPanel, BorderLayout.NORTH);
         centerPanel.add(recipeGridPanel, BorderLayout.CENTER);
 
         rightSideBarPanel.add(rightSideBarHeaderLabel, BorderLayout.NORTH);
+        rightSideBarPanel.add(scroll, BorderLayout.CENTER);
+        rightSideBarPanel.add(removeRecipeButton, BorderLayout.SOUTH);
+        rightSideBarPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
 
         centerPanelCardLayout.show(centerPanelCardContainer, "center");
 
@@ -525,30 +653,45 @@ public class DashboardUI {
     }
 
     private final ActionListener recipeCardClickListener = e -> {
-        RecipeCardPanel card = (RecipeCardPanel) e.getSource();
+        currentSelectedCardPanel = (RecipeCardPanel) e.getSource();
 
-        if (card.getIsPlusButton()) {
+        if (currentSelectedCardPanel.getIsPlusButton()) {
             centerPanelCardLayout.show(centerPanelCardContainer, "create");
             return;
         }
         // Normal recipe card
-        String recipeName = card.getRecipeName();
+        String recipeName = currentSelectedCardPanel.getRecipeName();
 
         Recipe target = null;
         // find a match
         for (Recipe recipe : Application.activeUser.getRecipes()) {
             if (recipe.getName().equals(recipeName)) {
                 target = recipe;
+                currentSelectedRecipeName = target.getName();
                 break;
             }
         }
         if (target != null) {
-            Log.info(target.getName());
+            String details =
+                    "Name: " + target.getName() + "\n\n" +
+                            "Description:\n" + target.getDescription() + "\n\n" +
+                            "Instructions:\n" + target.getInstructions() + "\n\n" +
+                            "Calories: " + target.getCalories() + "\n\n" +
+                            "Diet Type: " + target.getDietType().toString() + "\n\n" +
+                            "Ingredients:\n";
+
+            for (Ingredient ing : target.getIngredients()) {
+                details += "- " + ing.getQuantifier() + " " + ing.getMeasurementType() +
+                        " " + ing.getName() + "\n";
+            }
+
+
+            recipeInfoLabel.setText(details);
         }
         //Application.activeUser.getRecipes()
     };
 
-    public void populateRecipeGridPanel() {
+    public void populateRecipeGridPanel(List<Recipe> recipes) {
         // reset recipe cards
         if (!recipeCards.isEmpty()) {
             for (RecipeCardPanel recipeCardPanel : recipeCards) {
@@ -556,6 +699,7 @@ public class DashboardUI {
             }
             recipeCards.clear();
         }
+
 
         // every time it runs it resets and clears everything to repopulate cards
         // recipe cards always starts with one
@@ -568,7 +712,7 @@ public class DashboardUI {
             return;
 
         int i = 1;
-        for (Recipe recipe : Application.activeUser.getRecipes()) {
+        for (Recipe recipe : recipes) {
             RecipeCardPanel recipePanelButtonN = new RecipeCardPanel(recipe.getName(), false);
             recipeCards.add(recipePanelButtonN);
             recipePanelButtonN.addActionListener(recipeCardClickListener);
@@ -579,6 +723,99 @@ public class DashboardUI {
         centerPanel.revalidate();
         centerPanel.repaint();
     }
+
+    private void openFilterDialog() {
+        // Styled dialog window
+        JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(centerPanel), "Filter", true);
+        dialog.setLayout(new GridBagLayout());
+        dialog.getContentPane().setBackground(Color.decode("#121417"));
+        dialog.setSize(300, 220);
+        dialog.setLocationRelativeTo(centerPanel);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(12, 12, 12, 12);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Label
+        JLabel sortLabel = new JLabel("Filter Options");
+        sortLabel.putClientProperty(FlatClientProperties.STYLE,
+                "foreground:#C5D1BA; font:bold 16;");
+        dialog.add(sortLabel, gbc);
+
+        // Dropdown options
+        gbc.gridy++;
+        String[] sortOptions = {
+                "None",
+                "Calories Ascending",
+                "Calories Descending",
+                "Alphabetical Ascending",
+                "Alphabetical Descending",
+                "Vegetarian Only"
+        };
+
+        JComboBox<String> sortCombo = new JComboBox<>(sortOptions);
+        sortCombo.putClientProperty(FlatClientProperties.STYLE,
+                "arc:20;"
+                        + "background:#121417;"
+                        + "foreground:#C5D1BA;"
+                        + "borderColor:#C5D1BA;"
+                        + "borderWidth:2;"
+                        + "focusWidth:0;"
+                        + "buttonArrowColor:#C5D1BA;"
+                        + "buttonBackground:#252A2F;"
+                        + "popupBackground:#121417;"
+                        + "buttonEditableBackground:#121417;"
+                        + "padding: 5,5,5,5;");
+        dialog.add(sortCombo, gbc);
+
+        // Confirm button
+        gbc.gridy++;
+        JButton confirmButton = new JButton("Apply Filter");
+        confirmButton.putClientProperty(FlatClientProperties.STYLE,
+                "arc:20;"
+                        + "font:bold 18;"
+                        + "foreground:#C5D1BA;"
+                        + "background:#252A2F;"
+                        + "borderColor:#C5D1BA;"
+                        + "borderWidth: 2;"
+                        + "margin: 5,5,5,5;");
+        dialog.add(confirmButton, gbc);
+
+        // Logic when confirm is clicked
+        confirmButton.addActionListener(ev -> {
+            String selection = sortCombo.getSelectedItem().toString();
+
+            List<Recipe> recipes = Application.activeUser.getRecipes();
+
+            List<Recipe> filtered = new ArrayList<>();
+
+            if (selection.equals("None")) {
+                filtered = recipes;
+            } else if(selection.equals("Calories Ascending")) {
+                filtered = RecipeSearch.quickSortCaloriesAscending(recipes, 0, recipes.size() - 1);
+            } else if (selection.equals("Calories Descending")) {
+                filtered = RecipeSearch.quickSortCaloriesDescending(recipes, 0, recipes.size() - 1);
+            } else if (selection.equals("Alphabetical Ascending")) {
+                filtered = RecipeSearch.quickSortNameAscending(recipes, 0, recipes.size() - 1);
+            } else if (selection.equals("Alphabetical Descending")) {
+                filtered = RecipeSearch.quickSortNameDescending(recipes, 0, recipes.size() - 1);
+            } else if (selection.equals("Vegetarian Only")) {
+                filtered = RecipeSearch.filterByDietType(recipes, DietType.VEGETARIAN);
+            }
+
+            populateRecipeGridPanel(filtered);
+            centerPanel.revalidate();
+            centerPanel.repaint();
+
+            dialog.dispose();
+        });
+
+        dialog.setVisible(true);
+    }
+
 
 
 

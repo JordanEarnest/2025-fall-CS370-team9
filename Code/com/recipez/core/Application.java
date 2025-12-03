@@ -87,7 +87,7 @@ public class Application {
             activeUser = user;
             Log.info("Successfully logged in user with name " + user.getName());
 
-            dashboardUI.populateRecipeGridPanel();
+            dashboardUI.populateRecipeGridPanel(activeUser.getRecipes());
 
             // Switch UI
             applicationCardLayout.show(applicationPanel, "dashboard");
@@ -96,6 +96,11 @@ public class Application {
             Log.warning("Failed to login user with name " + user.getName());
             JOptionPane.showMessageDialog(null, "Incorrect username or password");
         }
+    }
+
+    public void logout() {
+        activeUser = null;
+        applicationCardLayout.show(applicationPanel, "auth");
     }
 
     public DashboardUI getDashboardUI() {

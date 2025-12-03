@@ -101,4 +101,7 @@ public class Recipe {
     public JSONObject getRecipeJson() {
         return recipeJson;
     }
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
 }

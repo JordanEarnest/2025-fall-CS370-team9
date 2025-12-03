@@ -1,128 +1,122 @@
-[{
-    "recipes": [
-        {
-            "instructions": "Toss in a bowl.",
-            "name": "Salad",
-            "description": "A healthy snack.",
-            "dietType": "VEGETARIAN",
-            "ingredients": [{
-                "name": "Lettuce",
-                "measurementType": "CUP",
-                "quantifier": 1
-            }],
-            "calories": 100
-        },
-        {
-            "instructions": "cook that",
-            "name": "Spaghetti",
-            "description": "a yummy meal",
-            "dietType": "NONE",
-            "ingredients": [
-                {
-                    "name": "Meatball",
-                    "measurementType": "NUMBER",
-                    "quantifier": 4
-                },
-                {
-                    "name": "Noodles",
-                    "measurementType": "CUP",
-                    "quantifier": 1
-                }
-            ],
-            "calories": 500
-        },
-        {
-            "instructions": "asdf",
-            "name": "asdf",
-            "description": "asdf",
-            "dietType": "NONE",
-            "ingredients": [{
-                "name": "asdf",
-                "measurementType": "NUMBER",
-                "quantifier": 1
-            }],
-            "calories": 100
-        },
-        {
+[
+    {
+        "recipes": [{
             "instructions": "b",
-            "name": "Bla",
+            "name": "bla",
             "description": "b",
             "dietType": "NONE",
             "ingredients": [{
-                "name": "asdfd",
+                "name": "urmom",
                 "measurementType": "NUMBER",
-                "quantifier": 12
-            }],
-            "calories": 12
-        },
-        {
-            "instructions": "asdf",
-            "name": "ffa",
-            "description": "asdf",
-            "dietType": "NONE",
-            "ingredients": [{
-                "name": "asdf",
-                "measurementType": "NUMBER",
-                "quantifier": 2
-            }],
-            "calories": 123
-        },
-        {
-            "instructions": "cook",
-            "name": "icecream",
-            "description": "yum",
-            "dietType": "NONE",
-            "ingredients": [{
-                "name": "milk",
-                "measurementType": "CUP",
                 "quantifier": 1
             }],
-            "calories": 1
-        },
-        {
-            "instructions": "cook it oplease",
-            "name": "Onion Soup",
-            "description": "yucky",
-            "dietType": "NONE",
-            "ingredients": [{
-                "name": "Onion",
-                "measurementType": "CUP",
-                "quantifier": 1
-            }],
-            "calories": 100
-        },
-        {
-            "instructions": "make it",
-            "name": "Peanut Butter Jelly Sandwich",
-            "description": "a sandwich",
-            "dietType": "NONE",
-            "ingredients": [
-                {
-                    "name": "Peanut Butter",
-                    "measurementType": "TABLESPOON",
-                    "quantifier": 2
-                },
-                {
-                    "name": "Bread",
-                    "measurementType": "NUMBER",
-                    "quantifier": 2
-                },
-                {
-                    "name": "Jam",
-                    "measurementType": "TABLESPOON",
-                    "quantifier": 1
-                }
-            ],
-            "calories": 200
-        }
-    ],
-    "password": "$2a$10$IUQ4uueuYaJ.vACab42a3OTPW46FI8IjLtN.BQAUJfq1xiPTMaaqa",
-    "bodyGoal": "CUT",
-    "bmr": 138,
-    "name": "Jordan",
-    "dietType": "NONE",
-    "weight": 123,
-    "isMan": true,
-    "age": 123,
-    "height": 1
-}]
+            "calories": 60
+        }],
+        "password": "$2a$10$LoL6esiNPaqCbX9lx8exG.4v3G4TEAAC/cbkWi5RRfnU4ZZGHsoSi",
+        "bodyGoal": "CUT",
+        "bmr": 138,
+        "name": "Josh",
+        "dietType": "NONE",
+        "weight": 123,
+        "isMan": true,
+        "age": 123,
+        "height": 1
+    },
+    {
+        "recipes": [
+            {
+                "instructions": "Throw noodles in boiling water and lightly salt. Take out and pour marinara sauce on noodles. Serve.",
+                "name": "Spaghetti",
+                "description": "A yummy noodley tomatoey goodness.",
+                "dietType": "NONE",
+                "ingredients": [
+                    {
+                        "name": "Noodles",
+                        "measurementType": "CUP",
+                        "quantifier": 1
+                    },
+                    {
+                        "name": "Marinara Sauce",
+                        "measurementType": "CUP",
+                        "quantifier": 0.5
+                    },
+                    {
+                        "name": "Meatballs",
+                        "measurementType": "NUMBER",
+                        "quantifier": 4
+                    }
+                ],
+                "calories": 500
+            },
+            {
+                "instructions": "Spread peanut butter and jelly on both slices of bread and put together",
+                "name": "PBJ",
+                "description": "Two slices of bread and peanut butter and jelly. A classic.",
+                "dietType": "NONE",
+                "ingredients": [
+                    {
+                        "name": "Bread",
+                        "measurementType": "NUMBER",
+                        "quantifier": 2
+                    },
+                    {
+                        "name": "Peanut Butter",
+                        "measurementType": "TABLESPOON",
+                        "quantifier": 1
+                    },
+                    {
+                        "name": "Jam",
+                        "measurementType": "TABLESPOON",
+                        "quantifier": 1
+                    }
+                ],
+                "calories": 100
+            },
+            {
+                "instructions": "Toss lettuce in a bowl with salad dressing",
+                "name": "Salad",
+                "description": "A vegetable concoction.",
+                "dietType": "VEGETARIAN",
+                "ingredients": [
+                    {
+                        "name": "Lettuce",
+                        "measurementType": "CUP",
+                        "quantifier": 1
+                    },
+                    {
+                        "name": "Tomatoes",
+                        "measurementType": "NUMBER",
+                        "quantifier": 1
+                    },
+                    {
+                        "name": "Salad Dressing",
+                        "measurementType": "TABLESPOON",
+                        "quantifier": 1
+                    }
+                ],
+                "calories": 10
+            }
+        ],
+        "password": "$2a$10$kCgtDjgrB9j96g2krvx2y.wZGItbB1gn1UDkPRywAk2QsFHqzWoF.",
+        "bodyGoal": "CUT",
+        "bmr": 1544,
+        "name": "Demo",
+        "dietType": "NONE",
+        "weight": 120,
+        "isMan": true,
+        "age": 20,
+        "height": 5.75
+    },
+    {
+        "recipes": [],
+        "password": "$2a$10$IUQ4uueuYaJ.vACab42a3OTPW46FI8IjLtN.BQAUJfq1xiPTMaaqa",
+        "bodyGoal": "CUT",
+        "bmr": 138,
+        "name": "Jordan",
+        "dietType": "NONE",
+        "weight": 123,
+        "isMan": true,
+        "age": 123,
+        "height": 1
+    }
+]

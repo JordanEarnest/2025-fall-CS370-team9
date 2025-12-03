@@ -8,7 +8,7 @@ import java.util.List;
 public class RecipeSearch {
 
     //search recipe by diet type (helper method)
-    private static List<Recipe> filterByDietType(List<Recipe> recipes, DietType dietType) {
+    public static List<Recipe> filterByDietType(List<Recipe> recipes, DietType dietType) {
         List<Recipe> filteredRecipes = new ArrayList<>();
         for (Recipe r : recipes) {
             if (r.getDietType().equals(dietType)) { //need to import dietType from user class
@@ -47,9 +47,7 @@ public class RecipeSearch {
 
         for (Recipe r : recipes) {
             String lowercaseRecipeName = r.getName().toLowerCase();
-            String lowercaseDescription = r.getDescription().toLowerCase();
-            if (lowercaseRecipeName.contains(searchString.toLowerCase()) ||
-            lowercaseDescription.contains(searchString.toLowerCase())) {
+            if (lowercaseRecipeName.contains(searchString.toLowerCase())) {
                 foundRecipes.add(r);
             }
         }
@@ -117,21 +115,23 @@ public class RecipeSearch {
     }
 
     // Sort the recipe array in ascending order based on calories
-    public static void quickSortCaloriesAscending(List<Recipe> recipes, int low, int high) {
+    public static List<Recipe> quickSortCaloriesAscending(List<Recipe> recipes, int low, int high) {
         if (low < high){
             int pivotIndex = partitionCaloriesAscending(recipes, low, high);
             quickSortCaloriesAscending(recipes, low, pivotIndex - 1);
             quickSortCaloriesAscending(recipes, pivotIndex + 1, high);
         }
+        return recipes;
     }
 
     // Sort the recipe array in ascending order based on calories
-    public static void quickSortCaloriesDescending(List<Recipe> recipes, int low, int high){
+    public static List<Recipe> quickSortCaloriesDescending(List<Recipe> recipes, int low, int high){
         if(low < high){
-            int pivotIndex = partitionCaloriesAscending(recipes, low, high);
+            int pivotIndex = partitionCaloriesDescending(recipes, low, high);
             quickSortCaloriesDescending(recipes, low ,pivotIndex - 1);
             quickSortCaloriesDescending(recipes, pivotIndex +  1, high);
         }
+        return recipes;
     }
 
     
@@ -199,21 +199,23 @@ public class RecipeSearch {
     }
 
     // Sort the recipe array in alphabetically ascending order based on Name
-    public static void quickSortNameAscending(List<Recipe> recipes, int low, int high) {
+    public static List<Recipe> quickSortNameAscending(List<Recipe> recipes, int low, int high) {
         if (low < high){
-            int pivotIndex = partitionCaloriesAscending(recipes, low, high);
+            int pivotIndex = partitionNameAscending(recipes, low, high);
             quickSortNameAscending(recipes, low, pivotIndex - 1);
             quickSortNameAscending(recipes, pivotIndex + 1, high);
         }
+        return recipes;
     }
 
     // Sort the recipe array in alphabetically Descending order based on Name
-    public static void quickSortNameDescending(List<Recipe> recipes, int low, int high) {
+    public static List<Recipe> quickSortNameDescending(List<Recipe> recipes, int low, int high) {
         if (low < high){
-            int pivotIndex = partitionCaloriesAscending(recipes, low, high);
+            int pivotIndex = partitionNameDescending(recipes, low, high);
             quickSortNameDescending(recipes, low, pivotIndex - 1);
             quickSortNameDescending(recipes, pivotIndex + 1, high);
         }
+        return recipes;
     }
 
 }
