@@ -6,6 +6,7 @@ import com.recipez.recipe.Ingredient;
 import com.recipez.recipe.MeasurementType;
 import com.recipez.recipe.Recipe;
 import com.recipez.recipe.RecipeSearch;
+import com.recipez.user.BodyGoal;
 import com.recipez.user.User;
 import com.recipez.util.DietType;
 import com.recipez.util.Log;
@@ -753,7 +754,8 @@ public class DashboardUI {
                 "Calories Descending",
                 "Alphabetical Ascending",
                 "Alphabetical Descending",
-                "Vegetarian Only"
+                "Vegetarian Only",
+                "Personalized"
         };
 
         JComboBox<String> sortCombo = new JComboBox<>(sortOptions);
@@ -804,6 +806,15 @@ public class DashboardUI {
                 filtered = RecipeSearch.quickSortNameDescending(recipes, 0, recipes.size() - 1);
             } else if (selection.equals("Vegetarian Only")) {
                 filtered = RecipeSearch.filterByDietType(recipes, DietType.VEGETARIAN);
+            } else if (selection.equals("Personalized")) {
+                if (Application.activeUser.getDietType() != DietType.NONE) {
+                    filtered = RecipeSearch.filterByDietType(recipes, Application.activeUser.getDietType());
+                }
+                if (Application.activeUser.getBodyGoal() == BodyGoal.BULK) {
+                    filtered = RecipeSearch.quickSortCaloriesDescending(filtered, 0, filtered.size() - 1);
+                } else if (Application.activeUser.getBodyGoal() == BodyGoal.CUT) {
+                    filtered = RecipeSearch.quickSortCaloriesAscending(filtered, 0, filtered.size() - 1);
+                }
             }
 
             populateRecipeGridPanel(filtered);

@@ -23,6 +23,30 @@
         "height": 1
     },
     {
+        "recipes": [],
+        "password": "$2a$10$IUQ4uueuYaJ.vACab42a3OTPW46FI8IjLtN.BQAUJfq1xiPTMaaqa",
+        "bodyGoal": "CUT",
+        "bmr": 138,
+        "name": "Jordan",
+        "dietType": "NONE",
+        "weight": 123,
+        "isMan": true,
+        "age": 123,
+        "height": 1
+    },
+    {
+        "recipes": [],
+        "password": "$2a$10$ybPSvg8nEWf/CGbfauiczeU19RKm.cwTKeSWlzW5J2dmOVRPVTWmC",
+        "bodyGoal": "BULK",
+        "bmr": 1698,
+        "name": "123",
+        "dietType": "VEGETARIAN",
+        "weight": 120,
+        "isMan": true,
+        "age": 21,
+        "height": 6.583333333333333
+    },
+    {
         "recipes": [
             {
                 "instructions": "Throw noodles in boiling water and lightly salt. Take out and pour marinara sauce on noodles. Serve.",
@@ -95,13 +119,85 @@
                     }
                 ],
                 "calories": 10
+            },
+            {
+                "instructions": "Slice up all vegetables and put them all on top of one another in a circular dish. Sprinkle cheese on top and bake in oven at 400 degrees for 1 hour.",
+                "name": "Ratatouille",
+                "description": "Made by a rat one time",
+                "dietType": "VEGETARIAN",
+                "ingredients": [
+                    {
+                        "name": "Eggplant",
+                        "measurementType": "CUP",
+                        "quantifier": 1
+                    },
+                    {
+                        "name": "Zucchini",
+                        "measurementType": "CUP",
+                        "quantifier": 1
+                    },
+                    {
+                        "name": "Tomatoes",
+                        "measurementType": "CUP",
+                        "quantifier": 1
+                    },
+                    {
+                        "name": "Cheese",
+                        "measurementType": "CUP",
+                        "quantifier": 0.5
+                    }
+                ],
+                "calories": 600
+            },
+            {
+                "instructions": "Slice up apples and put in crust and bake for 1 hour at 400 degrees.",
+                "name": "Apple Pie",
+                "description": "A good appley pie.",
+                "dietType": "NONE",
+                "ingredients": [
+                    {
+                        "name": "Apple",
+                        "measurementType": "NUMBER",
+                        "quantifier": 3
+                    },
+                    {
+                        "name": "Dough",
+                        "measurementType": "CUP",
+                        "quantifier": 1
+                    },
+                    {
+                        "name": "Cinammon",
+                        "measurementType": "TABLESPOON",
+                        "quantifier": 1
+                    }
+                ],
+                "calories": 1000
+            },
+            {
+                "instructions": "boil pasta in water, salt lightly, pour marinara sauce on top",
+                "name": "Spaghetti 2",
+                "description": "a tomateoy noodley goodness",
+                "dietType": "NONE",
+                "ingredients": [
+                    {
+                        "name": "Meatballs",
+                        "measurementType": "NUMBER",
+                        "quantifier": 4
+                    },
+                    {
+                        "name": "Noodles",
+                        "measurementType": "CUP",
+                        "quantifier": 1
+                    }
+                ],
+                "calories": 500
             }
         ],
         "password": "$2a$10$kCgtDjgrB9j96g2krvx2y.wZGItbB1gn1UDkPRywAk2QsFHqzWoF.",
-        "bodyGoal": "CUT",
+        "bodyGoal": "BULK",
         "bmr": 1544,
         "name": "Demo",
-        "dietType": "NONE",
+        "dietType": "VEGETARIAN",
         "weight": 120,
         "isMan": true,
         "age": 20,
@@ -109,14 +205,14 @@
     },
     {
         "recipes": [],
-        "password": "$2a$10$IUQ4uueuYaJ.vACab42a3OTPW46FI8IjLtN.BQAUJfq1xiPTMaaqa",
+        "password": "$2a$10$Ec1TUXk2cg5SCk49yOw5ReIKQ3GXrC7QzYPatikTnndNimVenTJru",
         "bodyGoal": "CUT",
-        "bmr": 138,
-        "name": "Jordan",
-        "dietType": "NONE",
-        "weight": 123,
+        "bmr": 1698,
+        "name": "David",
+        "dietType": "VEGAN",
+        "weight": 120,
         "isMan": true,
-        "age": 123,
-        "height": 1
+        "age": 21,
+        "height": 6.583333333333333
     }
 ]
